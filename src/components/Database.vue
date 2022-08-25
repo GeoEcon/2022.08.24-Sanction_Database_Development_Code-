@@ -1,7 +1,7 @@
 <template>
   <div class="p-4 border-none">
 
-    <h1 class="font-bold text-3xl uppercase">Who sanctions whom in Russia?</h1>
+    <h1 class="font-bold text-3xl">Who sanctions whom in Russia?</h1>
     
     <div class="grid grid-cols-1 sm:grid-cols-4 border-none inline-flex main-color mb-4 mt-6">
 
@@ -104,7 +104,7 @@
         </template>
 
         <template v-slot:item.filter="{ item }">
-          <span :class="item.filter == 'Individual' ? 'color-turquoise' : 'color-purple' " v-html="item.filter"></span> 
+          <span :class="colorize(item.filter)" v-html="item.filter"></span> 
         </template>
       
       </v-data-table>
@@ -152,7 +152,16 @@ export default {
                     e.Switzerland = e.Switzerland == '✅' ?  check : cross;
                     e.UK = e.UK == '✅' ?  check : cross;
                     e.US = e.US == '✅' ?  check : cross;
-                    e.filter = e.filter == "O" ? "Entity" : "Individual";
+                    // Entities/Individuals/Aircrafts/Vessels
+                    if (e.filter == "E") {
+                      e.filter = "Entity";
+                    } else if (e.filter == "A") {
+                      e.filter = "Aircraft";
+                    } else if (e.filter == "V") {
+                      e.filter = "Vessel";
+                    } else {
+                      e.filter = "Individual";
+                    }
                   });
                   this.rows = jsonObj;
                   this.showLoader = false;
@@ -167,6 +176,18 @@ export default {
           typeof value === 'string' &&
           value.toString().toLowerCase().indexOf(search.toLowerCase()) !== -1
       },
+      colorize(e) {
+        // item.filter == 'Individual' ? 'color-turquoise' : 'color-purple' 
+        if (e == "Entity") {
+          return 'color-turquoise'
+        } else if (e == "Aircraft") {
+          return 'color-blue'
+        } else if (e == "Vessel") {
+          return 'color-purple'
+        } else {
+          return 'color-dark'
+        }
+      }
     },
     created() {
       this.load();
@@ -181,12 +202,12 @@ export default {
           sortable: false,
           value: 'entity_individual',
         },
-        { text: 'Australia', value: 'Australia', align: 'center', sortable: false },
-        { text: 'Canada', value: 'Canada', align: 'center', sortable: false },
-        { text: 'EU', value: 'EU', align: 'center', sortable: false },
-        { text: 'Switzerland', value: 'Switzerland', align: 'center', sortable: false },
-        { text: 'UK', value: 'UK', align: 'center', sortable: false },
         { text: 'US', value: 'US', align: 'center', sortable: false },
+        { text: 'UK', value: 'UK', align: 'center', sortable: false },
+        { text: 'EU', value: 'EU', align: 'center', sortable: false },
+        { text: 'Canada', value: 'Canada', align: 'center', sortable: false },
+        { text: 'Switzerland', value: 'Switzerland', align: 'center', sortable: false },
+        { text: 'Australia', value: 'Australia', align: 'center', sortable: false },
         { text: 'Type', 
           sortable: false,
           value: 'filter',
@@ -209,7 +230,7 @@ export default {
           filter: '',
         }
       ];
-      let selectors = ["Entity", "Individual", "Any Type"];
+      let selectors = ["Entity", "Individual", "Vessel", "Aircraft", "Any Type"];
       let selectedVal = "";
       return {
         info,
@@ -263,6 +284,26 @@ tbody > tr:nth-child(odd) {
   border: 2px solid #9B59B6;
   border-radius: 4px;
   color: #9B59B6;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.color-dark {
+  font-weight: bold;
+  padding: 4px 8px;
+  border: 2px solid #7f8c8d;
+  border-radius: 4px;
+  color: #7f8c8d;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.color-blue {
+  font-weight: bold;
+  padding: 4px 8px;
+  border: 2px solid #3498db;
+  border-radius: 4px;
+  color: #3498db;
   text-transform: uppercase;
   font-size: 12px;
 }

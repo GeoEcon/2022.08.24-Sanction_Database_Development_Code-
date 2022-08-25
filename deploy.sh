@@ -4,7 +4,7 @@ read -p "You are deploying the application. Are you sure? (y/n)" -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-  # do dangerous stuff
+  # update static site
 	echo "cleaning production repo";
 	cd "../2022.08.15-Sanction_Database/";
 	rm -rf css/ && rm -rf fonts/ && rm -rf js/ && rm -rf index.html;

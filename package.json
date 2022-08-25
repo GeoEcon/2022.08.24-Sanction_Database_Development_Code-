@@ -48,5 +48,17 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "description": "## Project Info",
+  "main": "babel.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeoEcon/2022.08.24-Sanction_Database_Development_Code-.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GeoEcon/2022.08.24-Sanction_Database_Development_Code-/issues"
+  },
+  "homepage": "https://github.com/GeoEcon/2022.08.24-Sanction_Database_Development_Code-#readme"
 }

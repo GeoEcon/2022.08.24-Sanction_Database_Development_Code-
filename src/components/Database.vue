@@ -71,7 +71,7 @@
           <span class="font-bold text-lg main-color">{{ header.text }}</span>
         </template>
 
-        <template v-slot:header.filter="{ header }">
+        <template v-slot:header.Type="{ header }">
           <span class="font-bold text-lg main-color">{{ header.text }}</span>
         </template>
 
@@ -103,8 +103,8 @@
           <div class="flex justify-center" v-html="item.US"></div> 
         </template>
 
-        <template v-slot:item.filter="{ item }">
-          <span :class="colorize(item.filter)" v-html="item.filter"></span> 
+        <template v-slot:item.Type="{ item }">
+          <span :class="colorize(item.Type)" v-html="item.Type"></span> 
         </template>
       
       </v-data-table>
@@ -136,7 +136,7 @@ export default {
       load() {
         axios
           .get(
-            'https://docs.google.com/spreadsheets/d/1b9dGS8ACKZ1WsYchlpqQt7EBMD3QZhTPIZWG2n70Grc/export?format=csv&gid=0',
+            'https://docs.google.com/spreadsheets/d/1D3FmybKuCeq8AeZFlLoZfcFHJZfc1hSJsnuunTRbFxA/export?format=csv&gid=0',
             { responseType: 'blob',}
           )
           .then( (response) => {
@@ -146,6 +146,8 @@ export default {
                 .fromString(csvStr)
                 .then((jsonObj) => {
                   jsonObj.forEach((e) => {
+                    e.entity_individual = e["Sanctioned Entity/Individual"];
+                    delete e["Sanctioned Entity/Individual"];
                     e.Australia = e.Australia == '✅' ?  check : cross;
                     e.Canada = e.Canada == '✅' ?  check : cross;
                     e.EU = e.EU == '✅' ?  check : cross;
@@ -153,17 +155,18 @@ export default {
                     e.UK = e.UK == '✅' ?  check : cross;
                     e.US = e.US == '✅' ?  check : cross;
                     // Entities/Individuals/Aircrafts/Vessels
-                    if (e.filter == "E") {
-                      e.filter = "Entity";
-                    } else if (e.filter == "A") {
-                      e.filter = "Aircraft";
-                    } else if (e.filter == "V") {
-                      e.filter = "Vessel";
+                    if (e.Type == "Entity") {
+                      e.Type = "Entity";
+                    } else if (e.Type == "Aircraft") {
+                      e.Type = "Aircraft";
+                    } else if (e.Type == "Vessel") {
+                      e.Type = "Vessel";
                     } else {
-                      e.filter = "Individual";
+                      e.Type = "Individual";
                     }
                   });
                   this.rows = jsonObj;
+                  console.log("rows", this.rows);
                   this.showLoader = false;
                 });
 
@@ -177,7 +180,7 @@ export default {
           value.toString().toLowerCase().indexOf(search.toLowerCase()) !== -1
       },
       colorize(e) {
-        // item.filter == 'Individual' ? 'color-turquoise' : 'color-purple' 
+        // item.Type == 'Individual' ? 'color-turquoise' : 'color-purple' 
         if (e == "Entity") {
           return 'color-turquoise'
         } else if (e == "Aircraft") {
@@ -210,7 +213,7 @@ export default {
         { text: 'Australia', value: 'Australia', align: 'center', sortable: false },
         { text: 'Type', 
           sortable: false,
-          value: 'filter',
+          value: 'Type',
           filter: value => {
               if (!this.selectedVal || this.selectedVal == 'Any Type') return true
               else return value == this.selectedVal
@@ -227,7 +230,7 @@ export default {
           Switzerland: '',
           UK: '',
           US: '',
-          filter: '',
+          Type: '',
         }
       ];
       let selectors = ["Entity", "Individual", "Vessel", "Aircraft", "Any Type"];

@@ -10,10 +10,20 @@
 import Database from './components/Database';
 
 export default {
-  name: 'App',
 
+  name: 'App',
   metaInfo: {
-      title: 'About Us'    
+    meta: [
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' }
+    ],
+    title: "hey",
+    /*
+    script: [
+      {
+        src: './iframe/iframeResizer.contentWindow.min.js',
+      },
+    ]
+    */
   },
 
   components: {
@@ -23,6 +33,17 @@ export default {
   data: () => ({
     //
   }),
+
+  mounted() {
+    const resizeFrame = document.createElement("script");
+    resizeFrame.setAttribute(
+      "src",
+      "./iframe/iframeResizer.contentWindow.min.js"
+    );
+    document.body.appendChild(resizeFrame);
+  },
+
+  
 };
 </script>
 

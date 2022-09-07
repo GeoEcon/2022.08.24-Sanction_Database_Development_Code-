@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 border-none">
+  <div class="border-none">
 
     <h1 class="font-bold text-3xl">Who sanctions whom in Russia?</h1>
     
@@ -38,6 +38,8 @@
         :headers="headers"
         :items="rows"
         :items-per-page="10"
+
+        
         class="border-none main-color border-none"
         :search="search"
         :custom-filter="searchFunc"
@@ -48,15 +50,21 @@
         </template>
 
         <template v-slot:header.Australia="{ header }">
+          <span class="invisible">---</span>
           <span class="font-bold text-lg main-color">{{ header.text }}</span>
+          <span class="invisible">---</span>
         </template>
 
         <template v-slot:header.Canada="{ header }">
+          <span class="invisible">---</span>
           <span class="font-bold text-lg main-color">{{ header.text }}</span>
+          <span class="invisible">---</span>
         </template>
 
         <template v-slot:header.EU="{ header }">
+          <span class="invisible">------</span>
           <span class="font-bold text-lg main-color">{{ header.text }}</span>
+          <span class="invisible">------</span>
         </template>
 
         <template v-slot:header.Switzerland="{ header }">
@@ -64,11 +72,15 @@
         </template>
 
         <template v-slot:header.UK="{ header }">
+          <span class="invisible">------</span>
           <span class="font-bold text-lg main-color">{{ header.text }}</span>
+          <span class="invisible">------</span>
         </template>
 
         <template v-slot:header.US="{ header }">
+          <span class="invisible">------</span>
           <span class="font-bold text-lg main-color">{{ header.text }}</span>
+          <span class="invisible">------</span>
         </template>
 
         <template v-slot:header.Type="{ header }">
@@ -261,6 +273,10 @@ export default {
 
 * {
   font-family: "Proxima", monospace;
+}
+
+.v-data-footer__select {
+  visibility:hidden;
 }
 
 .main-color {

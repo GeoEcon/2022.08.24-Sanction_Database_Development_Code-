@@ -1,17 +1,25 @@
 <template>
   <div class="border-none">
 
-    <h1 class="font-bold text-3xl">Who sanctions whom in Russia?</h1>
+    <h1 class="font-bold text-4xl">Gaps in Western sanctions against Russia</h1>
     
     <div class="grid grid-cols-1 sm:grid-cols-4 border-none inline-flex main-color mb-4 mt-6">
 
       <div>
         <template>
+          <!--
           <v-text-field
             v-model="search"
             label="Search"
             class="mr-2"
           ></v-text-field>
+          -->
+          <v-autocomplete
+            v-model="search"
+            :items="entList"
+            label="Search"
+            class="mr-2"
+          ></v-autocomplete>
         </template>
       </div>
 
@@ -22,7 +30,7 @@
             label="Filter by Type"
             outlined
             v-model="selectedVal"
-            class="border-none p-0"
+            class="border-none p-0 text-sm"
           ></v-select>
         </template>
       </div>
@@ -46,50 +54,54 @@
       >
         <!-- Header customization -->
         <template v-slot:header.entity_individual="{ header }">
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
+          <span class="font-bold text-base main-color uppercase">{{ header.text }}</span>
         </template>
 
         <template v-slot:header.Australia="{ header }">
-          <span class="invisible">---</span>
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <span class="invisible">---</span>
+          <span class="invisible">--</span>
+          <span class="font-bold text-base main-color uppercase">{{ header.text }}</span>
+          <span class="invisible">--</span>
         </template>
 
         <template v-slot:header.Canada="{ header }">
-          <span class="invisible">---</span>
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <span class="invisible">---</span>
+          <span class="invisible">--</span>
+          <span class="font-bold text-base main-color uppercase">{{ header.text }}</span>
+          <span class="invisible">--</span>
         </template>
 
         <template v-slot:header.EU="{ header }">
-          <span class="invisible">------</span>
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <span class="invisible">------</span>
+          <span class="invisible">-----</span>
+          <span class="font-bold text-base main-color uppercase">{{ header.text }}</span>
+          <span class="invisible">-----</span>
         </template>
 
         <template v-slot:header.Switzerland="{ header }">
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
+          <span class="font-bold text-base main-color uppercase">{{ header.text }}</span>
         </template>
 
         <template v-slot:header.UK="{ header }">
-          <span class="invisible">------</span>
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <span class="invisible">------</span>
+          <span class="invisible">-----</span>
+          <span class="font-bold text-base main-color uppercase">{{ header.text }}</span>
+          <span class="invisible">-----</span>
         </template>
 
         <template v-slot:header.US="{ header }">
-          <span class="invisible">------</span>
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <span class="invisible">------</span>
+          <span class="invisible">-----</span>
+          <span class="font-bold text-base main-color uppercase">{{ header.text }}</span>
+          <span class="invisible">-----</span>
         </template>
 
         <template v-slot:header.Type="{ header }">
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
+          <span class="font-bold text-base main-color uppercase">{{ header.text }}</span>
         </template>
 
         <!-- End of Header customization -->
 
         <!-- In-table customization -->
+
+        <template v-slot:item.entity_individual="{ item }">
+          <div class="text-lg" v-html="item.entity_individual"></div> 
+        </template>
 
         <template v-slot:item.Australia="{ item }">
           <div class="flex justify-center" v-html="item.Australia"></div> 
@@ -177,8 +189,9 @@ export default {
                       e.Type = "Individual";
                     }
                   });
+                  this.entList = jsonObj.map(e => e.entity_individual);
+                  console.log(this.entList);
                   this.rows = jsonObj;
-                  console.log("rows", this.rows);
                   this.showLoader = false;
                 });
 
@@ -194,13 +207,13 @@ export default {
       colorize(e) {
         // item.Type == 'Individual' ? 'color-turquoise' : 'color-purple' 
         if (e == "Entity") {
-          return 'color-turquoise'
+          return 'color-turquoise text-lg'
         } else if (e == "Aircraft") {
-          return 'color-blue'
+          return 'color-blue text-lg'
         } else if (e == "Vessel") {
-          return 'color-purple'
+          return 'color-purple text-lg'
         } else {
-          return 'color-dark'
+          return 'color-dark text-lg'
         }
       }
     },
@@ -208,6 +221,7 @@ export default {
       this.load();
     },
     data () {
+      let entList = [];
       let search =  "";
       let info = "";
       let headers = [
@@ -227,7 +241,7 @@ export default {
           sortable: false,
           value: 'Type',
           filter: value => {
-              if (!this.selectedVal || this.selectedVal == 'Any Type') return true
+              if (!this.selectedVal || this.selectedVal == 'ANY TYPE') return true
               else return value == this.selectedVal
             },
         },
@@ -245,7 +259,7 @@ export default {
           Type: '',
         }
       ];
-      let selectors = ["Entity", "Individual", "Vessel", "Aircraft", "Any Type"];
+      let selectors = ["Entity", "Individual", "Vessel", "Aircraft", "ANY TYPE"];
       let selectedVal = "";
       return {
         info,
@@ -254,13 +268,18 @@ export default {
         search,
         selectors,
         selectedVal,
-        showLoader
+        showLoader,
+        entList
       }
     },
   }
 </script>
 
 <style>
+
+.v-label {
+  font-size: 1.2rem !important;
+}
 
 .text-field {
     color: #90C143 !important; /* this will override the existing property applied */
@@ -285,6 +304,10 @@ export default {
 
 tbody > tr:nth-child(odd) {
   background-color: #9B59B610 !important;
+}
+
+tbody {
+  border-top: 2px solid #000;
 }
 
 .color-turquoise {

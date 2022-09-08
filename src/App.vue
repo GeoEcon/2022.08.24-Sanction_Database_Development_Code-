@@ -50,7 +50,6 @@ export default {
 <style>
 
 
-
 @font-face {
   font-family: "Proxima";
   src: url("~@/assets/fonts/ProximaNova-Regular.woff2") format("woff2");

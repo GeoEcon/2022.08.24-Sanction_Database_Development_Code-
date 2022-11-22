@@ -25,12 +25,18 @@ npm install
 npm run serve
 ```
 
+### test env
+
+```
+npm run build && surge dist/ -d atlantic-sanctions.surge.sh
+```
+
 ### Compiles and minifies for production, updating the repo
 ```
 sh deploy.sh
 ```
 
-### To Github, built app
+### To Github, built app (official app)
 
 [Link](https://geoecon.github.io/2022.08.15-Sanction_Database/)
 
@@ -38,5 +44,4 @@ sh deploy.sh
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Design
-
 [Figma File](https://www.figma.com/file/M0d4yTkbXDvSInXqR0J7Vd/Database-Sanctions?node-id=0%3A1)  

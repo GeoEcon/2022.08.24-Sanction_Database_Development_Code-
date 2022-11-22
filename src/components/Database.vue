@@ -43,6 +43,7 @@
 
     <div v-show="!showLoader">
       <v-data-table
+        :mobile-breakpoint="0"
         :headers="headers"
         :items="rows"
         :items-per-page="10"
@@ -54,45 +55,45 @@
       >
         <!-- Header customization -->
         <template v-slot:header.entity_individual="{ header }">
-          <span class="font-bold text-base main-color uppercase">{{ header.text }}</span>
+          <span class="font-bold text-sm main-color">{{ header.text }}</span>
         </template>
 
         <template v-slot:header.Australia="{ header }">
-          <span class="invisible">--</span>
-          <span class="font-bold text-base main-color uppercase">{{ header.text }}</span>
-          <span class="invisible">--</span>
+          <span class="invisible"></span>
+          <span class="font-bold text-sm main-color">{{ header.text }}</span>
+          <span class="invisible"></span>
         </template>
 
         <template v-slot:header.Canada="{ header }">
-          <span class="invisible">--</span>
-          <span class="font-bold text-base main-color uppercase">{{ header.text }}</span>
-          <span class="invisible">--</span>
+          <span class="invisible"></span>
+          <span class="font-bold text-sm main-color">{{ header.text }}</span>
+          <span class="invisible"></span>
         </template>
 
         <template v-slot:header.EU="{ header }">
-          <span class="invisible">-----</span>
-          <span class="font-bold text-base main-color uppercase">{{ header.text }}</span>
-          <span class="invisible">-----</span>
+          <span class="invisible"></span>
+          <span class="font-bold text-sm main-color">{{ header.text }}</span>
+          <span class="invisible"></span>
         </template>
 
         <template v-slot:header.Switzerland="{ header }">
-          <span class="font-bold text-base main-color uppercase">{{ header.text }}</span>
+          <span class="font-bold text-sm main-color">{{ header.text }}</span>
         </template>
 
         <template v-slot:header.UK="{ header }">
-          <span class="invisible">-----</span>
-          <span class="font-bold text-base main-color uppercase">{{ header.text }}</span>
-          <span class="invisible">-----</span>
+          <span class="invisible"></span>
+          <span class="font-bold text-sm main-color">{{ header.text }}</span>
+          <span class="invisible"></span>
         </template>
 
         <template v-slot:header.US="{ header }">
-          <span class="invisible">-----</span>
-          <span class="font-bold text-base main-color uppercase">{{ header.text }}</span>
-          <span class="invisible">-----</span>
+          <span class="invisible"></span>
+          <span class="font-bold text-sm main-color">{{ header.text }}</span>
+          <span class="invisible"></span>
         </template>
 
         <template v-slot:header.Type="{ header }">
-          <span class="font-bold text-base main-color uppercase">{{ header.text }}</span>
+          <span class="font-bold text-sm main-color">{{ header.text }}</span>
         </template>
 
         <!-- End of Header customization -->
@@ -226,7 +227,7 @@ export default {
       let info = "";
       let headers = [
         {
-          text: 'Entity/Individual',
+          text: 'Entity / Individual',
           align: 'start',
           sortable: false,
           value: 'entity_individual',
@@ -307,13 +308,13 @@ tbody > tr:nth-child(odd) {
 }
 
 tbody {
-  border-top: 2px solid #000;
+  border-top: 3px solid #555;
 }
 
 .color-turquoise {
   font-weight: bold;
   padding: 4px 8px;
-  border: 2px solid #1ABC9C;
+  border: 3px solid #1ABC9C;
   border-radius: 4px;
   color: #1ABC9C;
   text-transform: uppercase;
@@ -323,7 +324,7 @@ tbody {
 .color-purple {
   font-weight: bold;
   padding: 4px 8px;
-  border: 2px solid #9B59B6;
+  border: 3px solid #9B59B6;
   border-radius: 4px;
   color: #9B59B6;
   text-transform: uppercase;
@@ -333,7 +334,7 @@ tbody {
 .color-dark {
   font-weight: bold;
   padding: 4px 8px;
-  border: 2px solid #7f8c8d;
+  border: 3px solid #7f8c8d;
   border-radius: 4px;
   color: #7f8c8d;
   text-transform: uppercase;
@@ -343,7 +344,7 @@ tbody {
 .color-blue {
   font-weight: bold;
   padding: 4px 8px;
-  border: 2px solid #3498db;
+  border: 3px solid #3498db;
   border-radius: 4px;
   color: #3498db;
   text-transform: uppercase;

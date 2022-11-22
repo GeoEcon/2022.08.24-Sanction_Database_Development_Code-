@@ -5,7 +5,7 @@
     
     <div class="grid grid-cols-1 gap-2 sm:grid-cols-3 border-none inline-flex self-center main-color mb-4 mt-6">
 
-      <div>
+      <div class="">
         <template>
           <!--
           <v-text-field
@@ -16,10 +16,10 @@
           -->
           <v-autocomplete
             v-model="search"
-            :items="entList"
+            :items="entListFiltered"
             label="Search"
-            class="mr-2"
-            outlined=true
+            class="mx-2"
+            :outlined=true
           ></v-autocomplete>
         </template>
       </div>
@@ -28,7 +28,6 @@
         <div v-for="btn in btns" :key="btn.id">
           <Btn 
             @click="toggle($event)"
-            :act="isActive" 
             :style="{ 
               'border-color': btn.color, 
               'color': selectedVals.includes(btn.label) ? '#fff' : btn.color,
@@ -119,6 +118,7 @@
 
         <template v-slot:header.Type="{ header }">
           <span class="font-bold text-lg main-color">{{ header.text }}</span>
+          <img src="/flags/us_min.png" class="rounded-full my-1 opacity-0">
         </template>
 
         <!-- End of Header customization -->
@@ -175,14 +175,12 @@ import csvToJson from 'csvtojson';
 let red = "#E74C3C";
 let green = "#2ECC71";
 
-let cross = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="${red}" class="bi bi-x-circle" viewBox="-2 -2 20 20">
-  <path stroke="${red}" stroke-width="0.75" d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-  <path stroke="${red}" stroke-width="0.75" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+let cross = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="${red}" class="bi bi-x-circle" viewBox="-2 -2 20 20">
+  <path stroke="${red}" stroke-width="1.5" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
 </svg>`;
 
-let check = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="${green}" class="bi bi-check-circle" viewBox="-2 -2 20 20">
-  <path stroke="${green}" stroke-width="0.75" d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-  <path stroke="${green}" stroke-width="0.75" d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+let check = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="${green}" class="bi bi-check-circle" viewBox="-2 -2 20 20">
+  <path stroke="${green}" stroke-width="1.5" d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
 </svg>`; 
 
 export default {
@@ -221,8 +219,13 @@ export default {
                       e.Type = "Individual";
                     }
                   });
-                  this.entList = jsonObj.map(e => e.entity_individual);
-                  console.log(this.entList);
+                  this.entList = jsonObj.map(function(e) {
+                    const item = {
+                      "label": e.entity_individual,
+                      "type": e.Type
+                    }
+                    return item
+                  });
                   this.rows = jsonObj;
                   this.showLoader = false;
                 });
@@ -244,19 +247,50 @@ export default {
         }
       },
       vuetifyUpdate() {
-        const nodeItems = document.getElementsByClassName('mdi-menu-down');
-        for (const c of nodeItems) {
+        const searchIcons = document.getElementsByClassName('mdi-menu-down');
+        for (const c of searchIcons) {
           c.classList.replace('mdi-menu-down', 'mdi-magnify');
+          c.style.color = "#05a8e8";
+        }
+
+        const leftArrow = document.getElementsByClassName('mdi-chevron-left');
+        for (const c of leftArrow) {
+          c.classList.replace('mdi-chevron-left', 'mdi-chevron-left-circle');
+          c.style.color = "#05a8e8";
+        }
+        // leftArrow.style.color = "purple";
+
+        const rightArrow = document.getElementsByClassName('mdi-chevron-right');
+        for (const c of rightArrow) {
+          c.classList.replace('mdi-chevron-right', 'mdi-chevron-right-circle');
+          c.style.color = "#05a8e8";
         }
 
         const details = document.getElementsByClassName('v-text-field__details');
-        console.log(details[0]);
         details[0].remove();
+
+        const searchOutline = document.getElementsByClassName('.primary--text');
+        for (const c of searchOutline) {
+          c.style.color = "#05a8e8 !important";
+        }
+
+        const searchOutlineGlobal = document.getElementsByClassName('.v-application');
+        for (const c of searchOutlineGlobal) {
+          c.style.color = "#05a8e8 !important";
+        }
+
 
 
         //const div = document.getElementsByClassName("mdi-menu-down");
         //div.classList.replace('mdi-menu-down', 'mdi-magnify');
 
+      }
+    },
+    computed: {
+      entListFiltered() {
+        const filtre = this.entList.filter(e => this.selectedVals.includes(e.type));
+        const listNew = filtre.map(e => e.label);
+        return listNew
       }
     },
     created() {
@@ -280,9 +314,9 @@ export default {
         { text: 'US', value: 'US', align: 'center', sortable: false },
         { text: 'UK', value: 'UK', align: 'center', sortable: false },
         { text: 'EU', value: 'EU', align: 'center', sortable: false },
-        { text: 'Canada', value: 'Canada', align: 'center', sortable: false },
-        { text: 'Switzerland', value: 'Switzerland', align: 'center', sortable: false },
-        { text: 'Australia', value: 'Australia', align: 'center', sortable: false },
+        { text: 'CA', value: 'Canada', align: 'center', sortable: false },
+        { text: 'SW', value: 'Switzerland', align: 'center', sortable: false },
+        { text: 'AU', value: 'Australia', align: 'center', sortable: false },
         { text: 'Type', 
           sortable: false,
           value: 'Type',
@@ -359,6 +393,9 @@ export default {
 
 <style>
 
+
+/* SOME STYLING IS DEFINED IN THE VUETIFY PLUGIN */
+
 img {
   max-width:20px !important;
   margin: 0 auto;
@@ -373,10 +410,6 @@ th {
   font-size: 1.2rem !important;
 }
 
-.text-field {
-    color: #90C143 !important; /* this will override the existing property applied */
-    /* add whatever properties you want */
-}
 
 .primary--text {
   color: #fff0 !important;
@@ -395,7 +428,7 @@ th {
 }
 
 tbody > tr:nth-child(odd) {
-  background-color: #9B59B610 !important;
+  /* background-color: #05a8e810 !important; */
 }
 
 tbody {
@@ -405,7 +438,7 @@ tbody {
 .loader {
   border: 4px solid #f3f3f3;
   border-radius: 50%;
-  border-top: 4px solid #9B59B6;
+  border-top: 4px solid #05a8e8;
   width: 30px;
   height: 30px;
   -webkit-animation: spin 2s linear infinite; /* Safari */
@@ -420,12 +453,31 @@ tbody {
 .v-input__slot {
   padding: 5px;
   border-radius:10px !important;
-  margin: 0px 2px;
+  margin: 0px 0px !important;
 }
 
-.v-application .primary--text {
-  color: #9b59b6 !important;
-  caret-color: #9b59b6 !important;
+fieldset {
+  border: 3px solid #05a8e8 !important;
+}
+
+.v-label {
+  color: #05a8e8 !important;
+}
+
+.mdi-chevron-left-circle, .mdi-chevron-right-circle {
+  font-size: 35px !important;
+}
+
+.mdi-menu-down {
+  display: none !important;
+}
+
+.mdi-magnigy {
+  display: inherit !important;
+}
+
+.v-data-footer {
+  padding-right: 20px !important;
 }
 
 /* Safari */

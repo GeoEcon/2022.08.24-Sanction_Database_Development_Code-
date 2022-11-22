@@ -2,6 +2,11 @@
 echo
 read -p "You are deploying the application. Are you sure? (y/n)" -n 1 -r
 echo    # (optional) move to a new line
+echo    # (optional) move to a new line
+read -p "Have you updated the vue.config.js file and public path? (y/n)" -n 1 -r
+echo    # (optional) move to a new line
+echo    # (optional) move to a new line
+echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
   # update static site

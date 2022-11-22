@@ -32,6 +32,12 @@ npm run build && surge dist/ -d atlantic-sanctions.surge.sh
 ```
 
 ### Compiles and minifies for production, updating the repo
+
+UPDATE the `vue.config.js` file prior to deploying:  
+```
+publicPath: '/2022.08.15-Sanction_Database/',
+```
+
 ```
 sh deploy.sh
 ```

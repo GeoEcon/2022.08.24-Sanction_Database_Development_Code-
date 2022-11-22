@@ -3,7 +3,7 @@
 
     <h1 class="font-bold text-4xl">Gaps in Western sanctions against Russia</h1>
     
-    <div class="grid grid-cols-1 gap-2 sm:grid-cols-3 border-none inline-flex self-center main-color mb-4 mt-6">
+    <div class="grid grid-cols-1 sm:grid-cols-4 border-none inline-flex main-color mb-4 mt-6">
 
       <div>
         <template>
@@ -19,37 +19,10 @@
             :items="entList"
             label="Search"
             class="mr-2"
-            outlined=true
           ></v-autocomplete>
         </template>
       </div>
 
-      <div class="self-center grid grid-cols-4 flex justify-items-center  gap-2">
-        <div v-for="btn in btns" :key="btn.id">
-          <Btn 
-            @click="toggle($event)"
-            :act="isActive" 
-            :style="{ 
-              'border-color': btn.color, 
-              'color': selectedVals.includes(btn.label) ? '#fff' : btn.color,
-              'background-color': selectedVals.includes(btn.label) ? btn.color : '#fff',
-              'opacity': selectedVals.includes(btn.label) ? 1 : 0.6
-            }" 
-            class="text-center font-bold cursor-pointer px-4 py-2 rounded-lg border-2"
-          >
-            {{ btn.label }}
-          </Btn>
-        </div>
-        <!-- 
-          <Btn @click="test($event)" :activeBtn="act" :style="{ 'border-color': '#05a8e8', 'color': '#05a8e8' }" class="text-center font-bold  cursor-pointer px-4 py-2 rounded-lg border-2">Entity</Btn>
-          <Btn :activeBtn="act" :style="{ 'border-color': '#ef1277', 'color': '#ef1277' }" class="text-center font-bold  cursor-pointer px-4 py-2 rounded-lg border-2">Aircraft</Btn>
-          <Btn :activeBtn="act" :style="{ 'border-color': '#235a9d', 'color': '#235a9d' }" class="text-center font-bold  cursor-pointer px-4 py-2 rounded-lg border-2">Vessel</Btn>
-          <Btn :activeBtn="act" :style="{ 'border-color': '#7eba37', 'color': '#7eba37' }" class="text-center font-bold  cursor-pointer px-4 py-2 rounded-lg border-2">Individual</Btn>
-        -->
-        
-      </div>
-      
-      <!-- 
       <div>
         <template>
           <v-select
@@ -61,8 +34,6 @@
           ></v-select>
         </template>
       </div>
-      -->
-      
 
     </div>
 
@@ -78,47 +49,51 @@
         :items-per-page="10"
 
         
-        class="border-none main-color"
+        class="border-none main-color border-none"
         :search="search"
         :custom-filter="searchFunc"
       >
         <!-- Header customization -->
         <template v-slot:header.entity_individual="{ header }">
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
+          <span class="font-bold text-sm main-color">{{ header.text }}</span>
         </template>
 
         <template v-slot:header.Australia="{ header }">
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <img src="/flags/australia_min.png" class="rounded-full my-1">
+          <span class="invisible"></span>
+          <span class="font-bold text-sm main-color">{{ header.text }}</span>
+          <span class="invisible"></span>
         </template>
 
         <template v-slot:header.Canada="{ header }">
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <img src="/flags/canada_min.png" class="rounded-full my-1">
+          <span class="invisible"></span>
+          <span class="font-bold text-sm main-color">{{ header.text }}</span>
+          <span class="invisible"></span>
         </template>
 
         <template v-slot:header.EU="{ header }">
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <img src="/flags/eu_min.png" class="rounded-full my-1">
+          <span class="invisible"></span>
+          <span class="font-bold text-sm main-color">{{ header.text }}</span>
+          <span class="invisible"></span>
         </template>
 
         <template v-slot:header.Switzerland="{ header }">
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <img src="/flags/sw_min.png" class="rounded-full my-1">
+          <span class="font-bold text-sm main-color">{{ header.text }}</span>
         </template>
 
         <template v-slot:header.UK="{ header }">
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <img src="/flags/uk_min.png" class="rounded-full my-1">
+          <span class="invisible"></span>
+          <span class="font-bold text-sm main-color">{{ header.text }}</span>
+          <span class="invisible"></span>
         </template>
 
         <template v-slot:header.US="{ header }">
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <img src="/flags/us_min.png" class="rounded-full my-1">
+          <span class="invisible"></span>
+          <span class="font-bold text-sm main-color">{{ header.text }}</span>
+          <span class="invisible"></span>
         </template>
 
         <template v-slot:header.Type="{ header }">
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
+          <span class="font-bold text-sm main-color">{{ header.text }}</span>
         </template>
 
         <!-- End of Header customization -->
@@ -154,12 +129,8 @@
         </template>
 
         <template v-slot:item.Type="{ item }">
-          <span 
-            :style="{ 'background-color': colMap[item.Type] }"
-            class="text-lg font-bold px-2 py-1 text-white rounded-lg text-md" v-html="item.Type"
-          ></span> 
+          <span :class="colorize(item.Type)" v-html="item.Type"></span> 
         </template>
-
       
       </v-data-table>
     </div>
@@ -190,8 +161,6 @@ export default {
       load() {
         axios
           .get(
-            // v1 'https://docs.google.com/spreadsheets/d/1D3FmybKuCeq8AeZFlLoZfcFHJZfc1hSJsnuunTRbFxA/export?format=csv&gid=0',
-            // v2
             'https://docs.google.com/spreadsheets/d/1D3FmybKuCeq8AeZFlLoZfcFHJZfc1hSJsnuunTRbFxA/export?format=csv&gid=0',
             { responseType: 'blob',}
           )
@@ -236,35 +205,21 @@ export default {
           typeof value === 'string' &&
           value.toString().toLowerCase().indexOf(search.toLowerCase()) !== -1
       },
-      toggle(e) {
-        if ( this.selectedVals.includes(e.target.innerText) ) {
-          this.selectedVals = this.selectedVals.filter(it => it !== e.target.innerText);
+      colorize(e) {
+        // item.Type == 'Individual' ? 'color-turquoise' : 'color-purple' 
+        if (e == "Entity") {
+          return 'color-turquoise text-lg'
+        } else if (e == "Aircraft") {
+          return 'color-blue text-lg'
+        } else if (e == "Vessel") {
+          return 'color-purple text-lg'
         } else {
-          this.selectedVals.push(e.target.innerText);
+          return 'color-dark text-lg'
         }
-      },
-      vuetifyUpdate() {
-        const nodeItems = document.getElementsByClassName('mdi-menu-down');
-        for (const c of nodeItems) {
-          c.classList.replace('mdi-menu-down', 'mdi-magnify');
-        }
-
-        const details = document.getElementsByClassName('v-text-field__details');
-        console.log(details[0]);
-        details[0].remove();
-
-
-        //const div = document.getElementsByClassName("mdi-menu-down");
-        //div.classList.replace('mdi-menu-down', 'mdi-magnify');
-
       }
     },
     created() {
-      //this.iconUpdate();
       this.load();
-    },
-    mounted() {
-      this.vuetifyUpdate();
     },
     data () {
       let entList = [];
@@ -287,12 +242,9 @@ export default {
           sortable: false,
           value: 'Type',
           filter: value => {
-            if (!this.selectedVals || this.selectedVals == 'ANY TYPE') {
-              return true
-            } else {
-              return this.selectedVals.includes(value)
-            }
-          },
+              if (!this.selectedVal || this.selectedVal == 'ANY TYPE') return true
+              else return value == this.selectedVal
+            },
         },
       ];
       let showLoader = true;
@@ -309,65 +261,22 @@ export default {
         }
       ];
       let selectors = ["Entity", "Individual", "Vessel", "Aircraft", "ANY TYPE"];
-      let selectedVals = ["Individual"];
-
-      const colMap = {
-        "Individual":"#7eba37",
-        "Entity":"#05a8e8",
-        "Aircraft":"#ef1277",
-        "Vessel":"#235a9d",
-      };
-
-      const btns = [
-        {
-          id: "btn-individual",
-          label: "Individual",
-          color: "#7eba37"
-        },
-        {
-          id: "btn-entity",
-          label: "Entity",
-          color: "#05a8e8"
-        },
-        {
-          id: "btn-aircraft",
-          label: "Aircraft",
-          color: "#ef1277"
-        },
-        {
-          id: "btn-vessel",
-          label: "Vessel",
-          color: "#235a9d"
-        },
-        
-      ];
+      let selectedVal = "";
       return {
         info,
         headers,
         rows,
         search,
         selectors,
-        selectedVals,
+        selectedVal,
         showLoader,
-        entList,
-        btns,
-        colMap
+        entList
       }
     },
   }
 </script>
 
 <style>
-
-img {
-  max-width:20px !important;
-  margin: 0 auto;
-  border: 1px solid #bbb;
-}
-
-th {
-  max-width:70px;
-}
 
 .v-label {
   font-size: 1.2rem !important;
@@ -402,6 +311,46 @@ tbody {
   border-top: 3px solid #555;
 }
 
+.color-turquoise {
+  font-weight: bold;
+  padding: 4px 8px;
+  border: 3px solid #1ABC9C;
+  border-radius: 4px;
+  color: #1ABC9C;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.color-purple {
+  font-weight: bold;
+  padding: 4px 8px;
+  border: 3px solid #9B59B6;
+  border-radius: 4px;
+  color: #9B59B6;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.color-dark {
+  font-weight: bold;
+  padding: 4px 8px;
+  border: 3px solid #7f8c8d;
+  border-radius: 4px;
+  color: #7f8c8d;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.color-blue {
+  font-weight: bold;
+  padding: 4px 8px;
+  border: 3px solid #3498db;
+  border-radius: 4px;
+  color: #3498db;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
 .loader {
   border: 4px solid #f3f3f3;
   border-radius: 50%;
@@ -410,22 +359,6 @@ tbody {
   height: 30px;
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
-}
-
-.v-input.v-textarea>.v-input__control>.v-input__slot:before {
-    border: none;
-    outline:none;
-}
-
-.v-input__slot {
-  padding: 5px;
-  border-radius:10px !important;
-  margin: 0px 2px;
-}
-
-.v-application .primary--text {
-  color: #9b59b6 !important;
-  caret-color: #9b59b6 !important;
 }
 
 /* Safari */

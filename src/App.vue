@@ -103,7 +103,6 @@ export default {
               });
               
               for (let i=0; i<this.donutObj.length;i++) {
-                console.log();
                 const filteredArray = flatTypes.filter(e => e === this.donutObj[i].label)
                 this.donutObj[i].count = filteredArray.length;
               }

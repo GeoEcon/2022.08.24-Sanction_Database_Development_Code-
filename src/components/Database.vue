@@ -15,7 +15,7 @@
       <div class="self-center grid grid-cols-4 flex justify-items-center  gap-2">
         <div v-for="btn in btns" :key="btn.id">
           <TheButton 
-            @click="toggle($event)"
+            @click="toggle($event);animation()"
             :style="{ 
               'border-color': btn.color, 
               'color': selectedVals.includes(btn.label) ? '#fff' : btn.color,
@@ -41,7 +41,7 @@
         :items="rows"
         :items-per-page="10"
 
-        
+        id="main-table"
         class="border-none main-color"
         :search="search"
         :custom-filter="searchFunc"
@@ -129,6 +129,8 @@
 </template>
 
 <script>
+import anime from 'animejs';
+
 export default {
   props: {
     showLoader: {
@@ -159,6 +161,24 @@ export default {
     }
   },
   methods: {
+    animation() {
+      anime({
+        targets: 'tr',
+        opacity: 0,
+        duration: 1, 
+        delay: 1,
+        complete: function() {
+          anime({
+            targets: 'tr',
+            opacity: 1,
+            duration: 300,
+            delay: function(el, i) {
+              return i*50
+            },
+          })
+        }
+      });
+    },
     searchFunc (value, search) {
       return value != null &&
         search != null &&
@@ -208,8 +228,30 @@ export default {
       return listNew
     }
   },
+  watch: {
+    showLoader() {
+      this.animation();
+    }
+  },
   mounted() {
     this.vuetifyUpdate();
+    /*
+    setTimeout(() => {
+      this.animation();
+    }, 1000);
+    */
+
+    document.querySelectorAll('.mdi-chevron-right-circle').forEach(item => {
+      item.addEventListener('click', () => {
+        this.animation();
+      })
+    })
+    document.querySelectorAll('.mdi-chevron-left-circle').forEach(item => {
+      item.addEventListener('click', () => {
+        this.animation();
+      })
+    })
+
   },
   data () {
     let search =  "";
@@ -290,6 +332,10 @@ img {
 
 th {
   max-width:70px;
+}
+
+tr {
+  opacity:0;
 }
 
 .v-label {

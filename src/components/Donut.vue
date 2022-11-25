@@ -31,9 +31,6 @@ export default {
   },
   methods: {
     donutDraw() {
-      const color = this.color;
-      console.log(color, d3.selectAll("div"));
-
       const data = [
         { 
           'val': this.count, 

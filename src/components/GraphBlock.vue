@@ -1,24 +1,30 @@
 <template>
-  <div class="grid sm:grid-cols-4 p-8 gap-4 text-center" >
+  <div class="grid sm:grid-cols-5 sm:p-8 p-2 gap-4 items-stretch text-center" >
+    <TotalSanctions 
+      :totalSanctions="totalSanctions"
+    />
     <div v-for="graph in donutObj" :key="graph.id">
       <Donut 
         :color="graph.color"
         :label="graph.label"
+        :labelPlural="graph.labelPlural"
         :id="graph.id"
         :count="graph.count"
-        :totalEntries="totalEntries"
+        :totalSanctions="totalSanctions"
+        :sanctionsCountByType="sanctionsCountByType"
       />
     </div>
   </div>
 </template>
 
 <script>
-import Donut from './Donut.vue'; 
+import Donut from './Donut.vue';
+import TotalSanctions from './TotalSanctions.vue';  
 
 export default {
   components: {
-    Donut
+    Donut, TotalSanctions
   },
-  props: ["donutObj", "totalEntries"]
+  props: ["donutObj", "totalEntries", "totalSanctions", "sanctionsCountByType"]
 }
 </script>

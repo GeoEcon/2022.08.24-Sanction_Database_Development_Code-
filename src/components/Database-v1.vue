@@ -191,7 +191,6 @@ export default {
                     }
                   });
                   this.entList = jsonObj.map(e => e.entity_individual);
-                  console.log(this.entList);
                   this.rows = jsonObj;
                   this.showLoader = false;
                 });

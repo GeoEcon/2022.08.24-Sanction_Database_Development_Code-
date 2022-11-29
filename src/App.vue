@@ -4,7 +4,9 @@
       <h1 class="font-bold text-4xl">Gaps in Western sanctions against Russia</h1>
       <GraphBlock 
         :donut-obj="donutObj"
+        :sanctionsCountByType="sanctionsCountByType"
         :total-entries="totalEntries"
+        :total-sanctions="totalSanctions"
       />
       <Database
         :rows="rows"
@@ -26,11 +28,13 @@ import GraphBlock from './components/GraphBlock';
 let red = "#E74C3C";
 let green = "#2ECC71";
 
-let cross = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="${red}" class="bi bi-x-circle" viewBox="-2 -2 20 20">
+const sizeTicks = 32;
+
+let cross = `<svg xmlns="http://www.w3.org/2000/svg" width=${sizeTicks} height=${sizeTicks} fill="${red}" class="bi bi-x-circle" viewBox="-2 -2 20 20">
   <path stroke="${red}" stroke-width="1.5" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
 </svg>`;
 
-let check = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="${green}" class="bi bi-check-circle" viewBox="-2 -2 20 20">
+let check = `<svg xmlns="http://www.w3.org/2000/svg" width=${sizeTicks} height=${sizeTicks} fill="${green}" class="bi bi-check-circle" viewBox="-2 -2 20 20">
   <path stroke="${green}" stroke-width="1.5" d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
 </svg>`; 
 
@@ -57,8 +61,8 @@ export default {
       axios
       .get(
         // v1 'https://docs.google.com/spreadsheets/d/1D3FmybKuCeq8AeZFlLoZfcFHJZfc1hSJsnuunTRbFxA/export?format=csv&gid=0',
-        // v1
-        'https://docs.google.com/spreadsheets/d/1D3FmybKuCeq8AeZFlLoZfcFHJZfc1hSJsnuunTRbFxA/export?format=csv&gid=0',
+        // v2
+        'https://docs.google.com/spreadsheets/d/1tledta6ChBKWBr-LUtAI3O9FY4H24hpZpb86tTNAq4w/export?format=csv&gid=0',
         { responseType: 'blob' }
       )
       .then( (response) => {
@@ -67,7 +71,19 @@ export default {
           csvToJson()
             .fromString(csvStr)
             .then((jsonObj) => {
-              jsonObj.forEach((e) => {
+              jsonObj.forEach((e) => {               
+
+                // counting sanctions
+                for (let [key, value] of Object.entries(e)) {
+                  key == key;
+                  if (value == '✅') {
+                    this.totalSanctions += 1;
+                    this.sanctionsCountByType[e.Type] += 1;
+                  }
+                }
+
+
+                // sorting table
                 e.entity_individual = e["Sanctioned Entity/Individual"];
                 delete e["Sanctioned Entity/Individual"];
                 e.Australia = e.Australia == '✅' ?  check : cross;
@@ -76,6 +92,7 @@ export default {
                 e.Switzerland = e.Switzerland == '✅' ?  check : cross;
                 e.UK = e.UK == '✅' ?  check : cross;
                 e.US = e.US == '✅' ?  check : cross;
+                e.Japan = e.Japan == '✅' ?  check : cross;
                 // Entities/Individuals/Aircrafts/Vessels
                 if (e.Type == "Entity") {
                   e.Type = "Entity";
@@ -86,8 +103,13 @@ export default {
                 } else {
                   e.Type = "Individual";
                 }
+                e.SanctionList = e["Sanctions Lists"] === '' ?  '<i>List not available</i>' : e["Sanctions Lists"];
+                console.log(e["Sanctions Lists"])
               });
+              
+
               this.totalEntries = jsonObj.length;
+
 
               this.entList = jsonObj.map(function(e) {
                 const item = {
@@ -101,6 +123,7 @@ export default {
                 const item =  e.Type;
                 return item
               });
+
               
               for (let i=0; i<this.donutObj.length;i++) {
                 const filteredArray = flatTypes.filter(e => e === this.donutObj[i].label)
@@ -125,49 +148,64 @@ export default {
         Switzerland: '',
         UK: '',
         US: '',
+        Japan: '',
         Type: '',
+        SanctionList: ''
       }
     ];
     const colMap = {
       "Individual":"#7eba37",
       "Entity":"#05a8e8",
-      "Aircraft":"#ef1277",
-      "Vessel":"#235a9d",
+      "Aircraft":"#235a9d ",
+      "Vessel":"#ef1277",
     };
     const donutObj = [
       {
         "label": "Individual",
+        "labelPlural": "Individuals",
         "id": "individual",
         "color":colMap["Individual"],
         "count": 0
       },
       {
         "label": "Entity",
+        "labelPlural": "Entities",
         "id": "entity",
         "color":colMap["Entity"],
         "count": 0
       },
       {
         "label": "Vessel",
+        "labelPlural": "Vessels",
         "id": "vessel",
         "color":colMap["Vessel"],
         "count": 0
       },
       {
         "label": "Aircraft",
+        "labelPlural": "Aircrafts",
         "id": "aircraft",
         "color":colMap["Aircraft"],
         "count": 0
       }
     ];
     const totalEntries = 1;
+    const totalSanctions = 0;
+    const sanctionsCountByType = {
+      "Individual":0,
+      "Entity": 0,
+      "Vessel": 0,
+      "Aircraft": 0
+    };
     return {
       rows,
       showLoader,
       entList,
       donutObj,
       colMap,
-      totalEntries
+      totalEntries,
+      totalSanctions,
+      sanctionsCountByType
     }
   },
   created() {

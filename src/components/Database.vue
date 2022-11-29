@@ -1,19 +1,25 @@
 <template>
   <div class="border-none">
-    <div class="grid grid-cols-1 gap-2 sm:grid-cols-3 border-none inline-flex self-center main-color mb-4 mt-6">
-      <div class="">
+    <!--<div class="grid grid-cols-1 gap-2 sm:grid-cols-3 border-none inline-flex self-center main-color mb-4 mt-6">-->
+    <div class="border-none inline-flex self-center main-color mb-4 mt-6">
+      <div class="mx-2 search-size border-2 border-prim rounded-md flex items-center">
+        <div class="p-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#05a8e8" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+          </svg>
+        </div>
         <template>
           <v-autocomplete
             v-model="search"
             :items="entListFiltered"
-            label="Search"
-            class="mx-2"
+            :label="searchLabel"
             :outlined=true
           ></v-autocomplete>
         </template>
       </div>
-      <div class="self-center grid grid-cols-4 flex justify-items-center  gap-2">
-        <div v-for="btn in btns" :key="btn.id">
+      <!-- <div class="self-center grid grid-cols-4 flex justify-items-center"> -->
+      <div class="flex ml-3">
+        <div class="flex items-stretch" v-for="btn in btns" :key="btn.id">
           <TheButton 
             @click="toggle($event);animation()"
             :style="{ 
@@ -22,9 +28,9 @@
               'background-color': selectedVals.includes(btn.label) ? btn.color : '#fff',
               'opacity': selectedVals.includes(btn.label) ? 1 : 0.6
             }" 
-            class="text-center font-bold cursor-pointer px-4 py-2 rounded-lg border-2"
+            class="btn-margin text-center flex items-center font-bold cursor-pointer px-4 py-2 rounded-sm border-2"
           >
-            {{ btn.label }}
+            <div>{{ btn.label }}</div>
           </TheButton>
         </div>
       </div>
@@ -81,7 +87,17 @@
           <img src="/flags/us_min.png" class="rounded-full my-1">
         </template>
 
+        <template v-slot:header.Japan="{ header }">
+          <span class="font-bold text-lg main-color">{{ header.text }}</span>
+          <img src="/flags/japan_min.png" class="rounded-full my-1">
+        </template>
+
         <template v-slot:header.Type="{ header }">
+          <span class="font-bold text-lg main-color">{{ header.text }}</span>
+          <img src="/flags/us_min.png" class="rounded-full my-1 opacity-0">
+        </template>
+
+        <template v-slot:header.SanctionList="{ header }">
           <span class="font-bold text-lg main-color">{{ header.text }}</span>
           <img src="/flags/us_min.png" class="rounded-full my-1 opacity-0">
         </template>
@@ -116,11 +132,19 @@
           <div class="flex justify-center" v-html="item.US"></div> 
         </template>
 
+        <template v-slot:item.Japan="{ item }">
+          <div class="flex justify-center" v-html="item.Japan"></div> 
+        </template>
+
         <template v-slot:item.Type="{ item }">
           <span 
             :style="{ 'background-color': colMap[item.Type] }"
             class="text-lg font-bold px-2 py-1 text-white rounded-lg text-md" v-html="item.Type"
           ></span> 
+        </template>
+
+        <template v-slot:item.SanctionList="{ item }">
+          <div class="" v-html="item.SanctionList"></div>  
         </template>
 
       </v-data-table>
@@ -152,7 +176,9 @@ export default {
           Switzerland: '',
           UK: '',
           US: '',
+          Japan: '',
           Type: '',
+          SanctionList:'',
         }
       ]
     },
@@ -192,11 +218,18 @@ export default {
         this.selectedVals.push(e.target.innerText);
       }
     },
+    hideStarterRows() {
+      
+      
+    },
     vuetifyUpdate() {
+
+
+      
       const searchIcons = document.getElementsByClassName('mdi-menu-down');
       for (const c of searchIcons) {
         c.classList.replace('mdi-menu-down', 'mdi-magnify');
-        c.style.color = "#05a8e8";
+        c.style.color = "rgba(0,0,0,0)";
       }
       const leftArrow = document.getElementsByClassName('mdi-chevron-left');
       for (const c of leftArrow) {
@@ -226,11 +259,14 @@ export default {
       const filtre = this.entList.filter(e => this.selectedVals.includes(e.type));
       const listNew = filtre.map(e => e.label);
       return listNew
+    },
+    searchLabel() {
+      return `Search`
     }
   },
   watch: {
     showLoader() {
-      this.animation();
+      //this.animation();
     }
   },
   mounted() {
@@ -269,6 +305,7 @@ export default {
       { text: 'CA', value: 'Canada', align: 'center', sortable: false },
       { text: 'SW', value: 'Switzerland', align: 'center', sortable: false },
       { text: 'AU', value: 'Australia', align: 'center', sortable: false },
+      { text: 'JP', value: 'Japan', align: 'center', sortable: false },
       { text: 'Type', 
         sortable: false,
         value: 'Type',
@@ -280,6 +317,7 @@ export default {
           }
         },
       },
+      { text: 'Sanctions', value: 'SanctionList', align: 'left', sortable: false },
     ];
     let selectors = ["Entity", "Individual", "Vessel", "Aircraft", "ANY TYPE"];
     let selectedVals = ["Individual"];
@@ -321,6 +359,26 @@ export default {
 
 <style>
 
+.btn-margin {
+  margin-right:2px;
+}
+
+.search-size {
+  min-width:400px;
+}
+
+@media screen and (max-width: 992px) {
+  .search-size {
+    min-width:300px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .search-size {
+    min-width:300px;
+  }
+}
+
 
 /* SOME STYLING IS DEFINED IN THE VUETIFY PLUGIN */
 
@@ -335,7 +393,7 @@ th {
 }
 
 tr {
-  opacity:0;
+  opacity:1;
 }
 
 .v-label {
@@ -357,6 +415,12 @@ tr {
 
 .main-color {
   color:#252525 !important;
+}
+
+.v-text-field .v-label--active {
+  max-width: 133%;
+  transform: translateY(0px) scale(0) !important;
+  pointer-events: auto;
 }
 
 tbody > tr:nth-child(odd) {
@@ -389,7 +453,7 @@ tbody {
 }
 
 fieldset {
-  border: 3px solid #05a8e8 !important;
+  border: 3px solid transparent !important;
 }
 
 .v-label {
@@ -405,7 +469,7 @@ fieldset {
 }
 
 .mdi-magnigy {
-  display: inherit !important;
+  display: none !important;
 }
 
 .v-data-footer {

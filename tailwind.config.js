@@ -6,7 +6,11 @@ module.exports = {
 
   theme: {
 
-    extend: {},
+    extend: {
+      colors: {
+        "prim":"#05a8e8"
+      }
+    },
 
   },
 

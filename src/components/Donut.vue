@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="shadow-md p-4 flex">
+  <div class="shadow-md w-full h-full">
+    <div class="p-4 flex ">
       <div class="relative">
         <svg class="mx-auto" :width="width" :height="height" :id="id">
         </svg>
@@ -9,8 +9,8 @@
         </div>
       </div>
       <div>
-        <div class="font-bold px-2 text-2xl text-left">{{ count }}</div>
-        <div :style="{ color: this.color }" class="text-left font-bold px-2 text-lg">{{ label }}</div>
+        <div class="font-bold px-2 text-2xl text-left">{{ sanctionsCountByType[label] }}</div>
+        <div :style="{ color: this.color }" class="text-left font-bold p-2 text-lg">{{ labelPlural }}</div>
       </div>
     </div>
   </div>
@@ -21,11 +21,18 @@ import * as d3 from "d3";
 
 export default {
   name: 'Donut',
-  props: ["color", "label", "id", "count", "totalEntries"],
+  props: ["color", "label", "labelPlural", "id", "count", "totalSanctions", "sanctionsCountByType"],
   computed: {
     formattedPercentage() {
-      let val = (this.count/this.totalEntries) * 100;
-      val = val.toFixed(1) + "%";
+      console.log(this.totalSanctions)
+      let val = (this.sanctionsCountByType[this.label]/this.totalSanctions) * 100;
+      if (this.totalSanctions == 0) {
+        val = ""
+      } else {
+        val = val.toFixed(1) + "%";
+      }
+      console.log(typeof val)
+      
       return val
     }
   },
@@ -33,11 +40,11 @@ export default {
     donutDraw() {
       const data = [
         { 
-          'val': this.count, 
+          'val': this.sanctionsCountByType[this.label], 
           'opacity': 1,
         }, 
         {
-          'val': this.totalEntries - this.count,
+          'val': this.totalSanctions - this.sanctionsCountByType[this.label],
           'opacity': 0.2,
         }
       ] 
@@ -83,8 +90,8 @@ export default {
     }
   },
   data() {
-    const width = 150;
-    const height = 150;
+    const width = 125;
+    const height = 125;
     return {
       width, height
     }

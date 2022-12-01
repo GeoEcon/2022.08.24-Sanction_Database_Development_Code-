@@ -1,8 +1,9 @@
 <template>
   <div class="border-none">
-    <!--<div class="grid grid-cols-1 gap-2 sm:grid-cols-3 border-none inline-flex self-center main-color mb-4 mt-6">-->
-    <div class="border-none inline-flex self-center main-color mb-4 mt-6">
-      <div class="mx-2 search-size border-2 border-prim rounded-md flex items-center">
+    <div class="grid grid-cols-1 gap-2 sm:grid-cols-5 border-none inline-flex self-center main-color mb-4 mt-6">
+    <!--<div class="border-none inline-flex self-center main-color mb-4 mt-6">-->
+      <!--<div class="mx-2 search-size border-2 border-prim rounded-md flex items-center">-->
+      <div class="mx-2 search-size border-2 col-span-2 border-prim rounded-md flex items-center">
         <div class="p-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#05a8e8" class="bi bi-search" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
@@ -16,10 +17,17 @@
             :outlined=true
           ></v-autocomplete>
         </template>
+        <div @click="resetSearch" class="p-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#05a8e8" class="bi bi-x cursor-pointer" viewBox="0 0 16 16">
+            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+          </svg>
+        </div>
       </div>
-      <!-- <div class="self-center grid grid-cols-4 flex justify-items-center"> -->
-      <div class="flex ml-3">
-        <div class="flex items-stretch" v-for="btn in btns" :key="btn.id">
+      <div class="self-center gap-1 grid sm:grid-cols-5 grid-cols-2 col-span-2 flex justify-items-center">
+      <!--<div class="flex ml-3">-->
+        <div class="" v-for="btn in btns" :key="btn.id">
+
+
           <TheButton 
             @click="toggle($event);animation()"
             :style="{ 
@@ -28,10 +36,12 @@
               'background-color': selectedVals.includes(btn.label) ? btn.color : '#fff',
               'opacity': selectedVals.includes(btn.label) ? 1 : 0.6
             }" 
-            class="btn-margin text-center flex items-center font-bold cursor-pointer px-4 py-2 rounded-sm border-2"
+            class="btn-margin flex justify-center font-bold cursor-pointer px-4 py-2 rounded-sm border-2"
           >
             <div>{{ btn.label }}</div>
           </TheButton>
+
+
         </div>
       </div>
     </div>
@@ -144,7 +154,7 @@
         </template>
 
         <template v-slot:item.SanctionList="{ item }">
-          <div class="" v-html="item.SanctionList"></div>  
+          <div class="max-w-xs" v-html="item.SanctionList"></div>  
         </template>
 
       </v-data-table>
@@ -187,6 +197,13 @@ export default {
     }
   },
   methods: {
+    resetSearch(it) {
+      console.log(it);
+      //const inp = document.getElementTagName("input");
+      //console.log(inp);
+      this.search =  "";
+      // inp.innerHTML = '';
+    },
     animation() {
       anime({
         targets: 'tr',
@@ -212,11 +229,24 @@ export default {
         value.toString().toLowerCase().indexOf(search.toLowerCase()) !== -1
     },
     toggle(e) {
+      console.log(this.selectedVals, e.target.innerText)
+      // normal button filtering
       if ( this.selectedVals.includes(e.target.innerText) ) {
         this.selectedVals = this.selectedVals.filter(it => it !== e.target.innerText);
       } else {
         this.selectedVals.push(e.target.innerText);
       }
+
+      // if not any selection
+      if ( e.target.innerText != 'Any' ) {
+        this.selectedVals = this.selectedVals.filter(it => it !== 'Any');
+      }
+
+      // if any selection
+      if ( e.target.innerText == 'Any' ) {
+        this.selectedVals = [ "Individual", "Entity", "Vessel", "Aircraft", "Any"];
+      }
+
     },
     hideStarterRows() {
       
@@ -317,7 +347,7 @@ export default {
           }
         },
       },
-      { text: 'Sanctions', value: 'SanctionList', align: 'left', sortable: false },
+      { text: 'Sanctions Lists/Programs', value: 'SanctionList', align: 'left', sortable: false },
     ];
     let selectors = ["Entity", "Individual", "Vessel", "Aircraft", "ANY TYPE"];
     let selectedVals = ["Individual"];
@@ -342,6 +372,11 @@ export default {
         label: "Aircraft",
         color: this.colMap["Aircraft"]
       },
+      {
+        id: "btn-any",
+        label: "Any",
+        color: this.colMap["Any"]
+      }
       
       
     ];
@@ -361,6 +396,8 @@ export default {
 
 .btn-margin {
   margin-right:2px;
+  width:100px;
+  text-align:center;
 }
 
 .search-size {
@@ -376,6 +413,11 @@ export default {
 @media screen and (max-width: 600px) {
   .search-size {
     min-width:300px;
+  }
+  .btn-margin {
+    margin-right:2px;
+    width:150px;
+    text-align:center;
   }
 }
 
@@ -400,6 +442,11 @@ tr {
   font-size: 1.2rem !important;
 }
 
+/*
+td {
+  max-width:240px;
+}
+*/
 
 .primary--text {
   color: #fff0 !important;

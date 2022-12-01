@@ -24,15 +24,12 @@ export default {
   props: ["color", "label", "labelPlural", "id", "count", "totalSanctions", "sanctionsCountByType"],
   computed: {
     formattedPercentage() {
-      console.log(this.totalSanctions)
       let val = (this.sanctionsCountByType[this.label]/this.totalSanctions) * 100;
       if (this.totalSanctions == 0) {
         val = ""
       } else {
         val = val.toFixed(1) + "%";
-      }
-      console.log(typeof val)
-      
+      }      
       return val
     }
   },

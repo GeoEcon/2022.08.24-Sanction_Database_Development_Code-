@@ -4,9 +4,9 @@
       <div>
         <img src="/avatar.png">
       </div>
-      <div>
+      <div class="h-full">
         <div class="font-bold px-2 text-2xl text-left">{{ totalSanctions }}</div>
-        <div  class="text-left font-bold px-2 text-lg">Total Sanctions</div>
+        <div  class="text-left font-bold p-2 text-lg">Total Sanctions</div>
       </div>
     </div>
   </div>
@@ -22,6 +22,6 @@
 <style  scoped>
 img {
   border:none;
-  min-width: 50px;
+  min-width: 90px;
 }
 </style>

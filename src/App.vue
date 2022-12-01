@@ -104,7 +104,6 @@ export default {
                   e.Type = "Individual";
                 }
                 e.SanctionList = e["Sanctions Lists"] === '' ?  '<i>List not available</i>' : e["Sanctions Lists"];
-                console.log(e["Sanctions Lists"])
               });
               
 
@@ -158,6 +157,7 @@ export default {
       "Entity":"#05a8e8",
       "Aircraft":"#235a9d ",
       "Vessel":"#ef1277",
+      "Any":"#888"
     };
     const donutObj = [
       {
@@ -183,7 +183,7 @@ export default {
       },
       {
         "label": "Aircraft",
-        "labelPlural": "Aircrafts",
+        "labelPlural": "Aircraft",
         "id": "aircraft",
         "color":colMap["Aircraft"],
         "count": 0

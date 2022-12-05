@@ -40,8 +40,6 @@
           >
             <div>{{ btn.label }}</div>
           </TheButton>
-
-
         </div>
       </div>
     </div>
@@ -68,48 +66,104 @@
         </template>
 
         <template v-slot:header.Australia="{ header }">
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <img src="/flags/australia_min.png" class="rounded-full my-1">
+          <div class="flex flex-col items-center">
+            <div class="flex">
+              <img src="/flags/australia_min.png" class="rounded-full my-1 mx-1">
+              <span class="font-bold text-lg main-color">{{ header.text }}</span>
+            </div>
+            <div  class="flex justify-center">
+              <div data-v-filter="Australia" data-v-mark="check" @click="sanctionFilters" class="cursor-pointer" v-html="checkInner"></div>
+              <div data-v-filter="Australia" data-v-mark="cross" @click="sanctionFilters" class="cursor-pointer" v-html="crossInner"></div>
+            </div>
+          </div>
         </template>
 
         <template v-slot:header.Canada="{ header }">
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <img src="/flags/canada_min.png" class="rounded-full my-1">
+          <div class="flex flex-col items-center">
+            <div class="flex">
+              <img src="/flags/canada_min.png" class="rounded-full my-1 mx-1">
+              <span class="font-bold text-lg main-color">{{ header.text }}</span>
+            </div>
+            <div class="flex justify-center">
+              <div data-v-filter="Canada" data-v-mark="check" @click="sanctionFilters" class="cursor-pointer" v-html="checkInner"></div>
+              <div data-v-filter="Canada" data-v-mark="cross" @click="sanctionFilters" class="cursor-pointer" v-html="crossInner"></div>
+            </div>
+          </div>
         </template>
 
         <template v-slot:header.EU="{ header }">
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <img src="/flags/eu_min.png" class="rounded-full my-1">
+          <div class="flex flex-col items-center">
+            <div class="flex">
+              <img src="/flags/eu_min.png" class="rounded-full my-1 mx-1">
+              <span class="font-bold text-lg main-color">{{ header.text }}</span>
+            </div>
+            <div class="flex justify-center">
+              <div data-v-filter="EU" data-v-mark="check" @click="sanctionFilters" class="cursor-pointer" v-html="checkInner"></div>
+              <div data-v-filter="EU" data-v-mark="cross" @click="sanctionFilters" class="cursor-pointer" v-html="crossInner"></div>
+            </div>
+          </div>
         </template>
 
         <template v-slot:header.Switzerland="{ header }">
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <img src="/flags/sw_min.png" class="rounded-full my-1">
+          <div class="flex flex-col items-center">
+            <div class="flex">
+              <img src="/flags/sw_min.png" class="rounded-full my-1 mx-1">
+              <span class="font-bold text-lg main-color">{{ header.text }}</span>
+            </div>
+            <div class="flex justify-center">
+              <div data-v-filter="Switzerland" data-v-mark="check" @click="sanctionFilters" class="cursor-pointer" v-html="checkInner"></div>
+              <div data-v-filter="Switzerland" data-v-mark="cross" @click="sanctionFilters" class="cursor-pointer" v-html="crossInner"></div>
+            </div>
+          </div>
         </template>
 
         <template v-slot:header.UK="{ header }">
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <img src="/flags/uk_min.png" class="rounded-full my-1">
+          <div class="flex flex-col items-center">
+            <div class="flex">
+              <img src="/flags/uk_min.png" class="rounded-full my-1 mx-1">
+              <span class="font-bold text-lg main-color">{{ header.text }}</span>
+            </div>
+            <div class="flex justify-center">
+              <div data-v-filter="UK" data-v-mark="check" @click="sanctionFilters" class="cursor-pointer" v-html="checkInner"></div>
+              <div data-v-filter="UK" data-v-mark="cross" @click="sanctionFilters" class="cursor-pointer" v-html="crossInner"></div>
+            </div>
+          </div>
         </template>
 
         <template v-slot:header.US="{ header }">
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <img src="/flags/us_min.png" class="rounded-full my-1">
+          <div class="flex flex-col items-center">
+            <div class="flex">
+              <img src="/flags/us_min.png" class="rounded-full my-1 mx-1">
+              <span class="font-bold text-lg main-color">{{ header.text }}</span>
+            </div>
+            <div class="flex justify-center">
+              <div data-v-filter="US" data-v-mark="check" @click="sanctionFilters" class="cursor-pointer" v-html="checkInner"></div>
+              <div data-v-filter="US" data-v-mark="cross" @click="sanctionFilters" class="cursor-pointer" v-html="crossInner"></div>
+            </div>
+          </div>
         </template>
 
         <template v-slot:header.Japan="{ header }">
-          <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <img src="/flags/japan_min.png" class="rounded-full my-1">
+          <div class="flex flex-col items-center">
+            <div class="flex">
+              <img src="/flags/japan_min.png" class="rounded-full my-1 mx-1">
+              <span class="font-bold text-lg main-color">{{ header.text }}</span>
+            </div>
+            <div class="flex justify-center">
+              <div data-v-filter="Japan" data-v-mark="check" @click="sanctionFilters" class="cursor-pointer" v-html="checkInner"></div>
+              <div data-v-filter="Japan" data-v-mark="cross" @click="sanctionFilters" class="cursor-pointer" v-html="crossInner"></div>
+            </div>
+          </div>
         </template>
 
         <template v-slot:header.Type="{ header }">
           <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <img src="/flags/us_min.png" class="rounded-full my-1 opacity-0">
+          
         </template>
 
         <template v-slot:header.SanctionList="{ header }">
           <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <img src="/flags/us_min.png" class="rounded-full my-1 opacity-0">
+          <!-- <img src="/flags/us_min.png" class="rounded-full my-1 opacity-0"> -->
         </template>
         <!-- End of Header customization -->
 
@@ -165,6 +219,17 @@
 <script>
 import anime from 'animejs';
 
+const red = "#E74C3C";
+const green = "#2ECC71";
+const sizeTicks = 32;
+let crossInner = `<svg data-v-sign="cross" xmlns="http://www.w3.org/2000/svg" width=${sizeTicks} height=${sizeTicks} fill="${red}" class="bi bi-x-circle" viewBox="-2 -2 20 20">
+  <path stroke="${red}" stroke-width="1.5" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+</svg>`;
+
+let checkInner = `<svg data-v-sign="check" xmlns="http://www.w3.org/2000/svg" width=${sizeTicks} height=${sizeTicks} fill="${green}" class="bi bi-check-circle" viewBox="-2 -2 20 20">
+  <path stroke="${green}" stroke-width="1.5" d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+</svg>`;
+
 export default {
   props: {
     showLoader: {
@@ -196,13 +261,25 @@ export default {
       type: Object
     }
   },
+  computed: {
+    entListFiltered() {
+      const filtre = this.entList.filter(e => this.selectedVals.includes(e.type));
+      const listNew = filtre.map(e => e.label);
+      return listNew
+    },
+    searchLabel() {
+      return `Search`
+    },
+    checkInner() {
+      return checkInner
+    },
+    crossInner() {
+      return crossInner
+    },
+  },
   methods: {
-    resetSearch(it) {
-      console.log(it);
-      //const inp = document.getElementTagName("input");
-      //console.log(inp);
+    resetSearch() {
       this.search =  "";
-      // inp.innerHTML = '';
     },
     animation() {
       anime({
@@ -229,33 +306,37 @@ export default {
         value.toString().toLowerCase().indexOf(search.toLowerCase()) !== -1
     },
     toggle(e) {
-      console.log(this.selectedVals, e.target.innerText)
       // normal button filtering
       if ( this.selectedVals.includes(e.target.innerText) ) {
         this.selectedVals = this.selectedVals.filter(it => it !== e.target.innerText);
       } else {
         this.selectedVals.push(e.target.innerText);
       }
-
       // if not any selection
       if ( e.target.innerText != 'Any' ) {
         this.selectedVals = this.selectedVals.filter(it => it !== 'Any');
       }
-
       // if any selection
       if ( e.target.innerText == 'Any' ) {
         this.selectedVals = [ "Individual", "Entity", "Vessel", "Aircraft", "Any"];
       }
-
     },
-    hideStarterRows() {
-      
-      
+    sanctionFilters(e) {
+      const country = e.target.parentNode.parentNode.dataset.vFilter;
+      const val = e.target.parentNode.parentNode.dataset.vMark;
+      if ( this.colDict[country].includes(val) ) {
+        this.colDict[country] = this.colDict[country].filter(e => e != val);
+        e.target.setAttribute("stroke", "#ccc");
+      } else {
+        this.colDict[country].push(val)
+        if (val == 'check') {
+          e.target.setAttribute("stroke", green);
+        } else {
+          e.target.setAttribute("stroke", red);
+        }
+      }
     },
     vuetifyUpdate() {
-
-
-      
       const searchIcons = document.getElementsByClassName('mdi-menu-down');
       for (const c of searchIcons) {
         c.classList.replace('mdi-menu-down', 'mdi-magnify');
@@ -282,16 +363,6 @@ export default {
       for (const c of searchOutlineGlobal) {
         c.style.color = "#05a8e8 !important";
       }
-    }
-  },
-  computed: {
-    entListFiltered() {
-      const filtre = this.entList.filter(e => this.selectedVals.includes(e.type));
-      const listNew = filtre.map(e => e.label);
-      return listNew
-    },
-    searchLabel() {
-      return `Search`
     }
   },
   watch: {
@@ -329,13 +400,111 @@ export default {
         sortable: false,
         value: 'entity_individual',
       },
-      { text: 'US', value: 'US', align: 'center', sortable: false },
-      { text: 'UK', value: 'UK', align: 'center', sortable: false },
-      { text: 'EU', value: 'EU', align: 'center', sortable: false },
-      { text: 'CA', value: 'Canada', align: 'center', sortable: false },
-      { text: 'SW', value: 'Switzerland', align: 'center', sortable: false },
-      { text: 'AU', value: 'Australia', align: 'center', sortable: false },
-      { text: 'JP', value: 'Japan', align: 'center', sortable: false },
+      { text: 'US', 
+        value: 'US', 
+        align: 'center', 
+        sortable: false,
+        filter: (value) => {
+          const range = document.createRange();
+          const fragment = range.createContextualFragment(value);
+          const val = fragment.firstChild;
+          if (val != null) {
+            if (this.colDict.US.includes(val.dataset.vSign)) {
+              return value
+            }
+          }
+        }
+      },
+      { text: 'UK', 
+        value: 'UK', 
+        align: 'center', 
+        sortable: false,
+        filter: (value) => {
+          const range = document.createRange();
+          const fragment = range.createContextualFragment(value);
+          const val = fragment.firstChild;
+          if (val != null) {
+            if (this.colDict.UK.includes(val.dataset.vSign)) {
+              return value
+            }
+          }
+        } 
+      },
+      { text: 'EU', 
+        value: 'EU', 
+        align: 'center', 
+        sortable: false,
+        filter: (value) => {
+          const range = document.createRange();
+          const fragment = range.createContextualFragment(value);
+          const val = fragment.firstChild;
+          if (val != null) {
+            if (this.colDict.EU.includes(val.dataset.vSign)) {
+              return value
+            }
+          }
+        } 
+      },
+      { text: 'CA', 
+        value: 'Canada', 
+        align: 'center', 
+        sortable: false,
+        filter: (value) => {
+          const range = document.createRange();
+          const fragment = range.createContextualFragment(value);
+          const val = fragment.firstChild;
+          if (val != null) {
+            if (this.colDict.Canada.includes(val.dataset.vSign)) {
+              return value
+            }
+          }
+        } 
+      },
+      { text: 'SW', 
+        value: 'Switzerland', 
+        align: 'center', 
+        sortable: false,
+        filter: (value) => {
+          const range = document.createRange();
+          const fragment = range.createContextualFragment(value);
+          const val = fragment.firstChild;
+          if (val != null) {
+            if (this.colDict.Switzerland.includes(val.dataset.vSign)) {
+              return value
+            }
+          }
+        } 
+      },
+      { text: 'AU', 
+        value: 'Australia', 
+        align: 'center', 
+        sortable: false,
+        filter: (value) => {
+          const range = document.createRange();
+          const fragment = range.createContextualFragment(value);
+          const val = fragment.firstChild;
+          if (val != null) {
+            if (this.colDict.Australia.includes(val.dataset.vSign)) {
+              return value
+            }
+          }
+        }
+      },
+      { text: 'JP', 
+        value: 'Japan', 
+        align: 'center', 
+        sortable: false,
+        filter: (value) => {
+          const range = document.createRange();
+          const fragment = range.createContextualFragment(value);
+          const val = fragment.firstChild;
+          if (val != null) {
+            if (this.colDict.Japan.includes(val.dataset.vSign)) {
+              return value
+            }
+          }
+        }
+      },
       { text: 'Type', 
         sortable: false,
         value: 'Type',
@@ -347,7 +516,11 @@ export default {
           }
         },
       },
-      { text: 'Sanctions Lists/Programs', value: 'SanctionList', align: 'left', sortable: false },
+      { text: 'Sanctions Lists/Programs', 
+        value: 'SanctionList', 
+        align: 'left', 
+        sortable: false 
+      },
     ];
     let selectors = ["Entity", "Individual", "Vessel", "Aircraft", "ANY TYPE"];
     let selectedVals = ["Individual"];
@@ -380,13 +553,23 @@ export default {
       
       
     ];
+    const colDict = {
+      Australia: ["check", "cross"],
+      US: ["check", "cross"],
+      UK: ["check", "cross"],
+      Japan: ["check", "cross"],
+      EU: ["check", "cross"],
+      Canada: ["check", "cross"],
+      Switzerland: ["check", "cross"],
+    };
     return {
       info,
       headers,
       search,
       selectors,
       selectedVals,
-      btns
+      btns,
+      colDict
     }
   },
 }

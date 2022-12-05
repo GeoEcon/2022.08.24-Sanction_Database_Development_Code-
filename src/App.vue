@@ -30,11 +30,11 @@ let green = "#2ECC71";
 
 const sizeTicks = 32;
 
-let cross = `<svg xmlns="http://www.w3.org/2000/svg" width=${sizeTicks} height=${sizeTicks} fill="${red}" class="bi bi-x-circle" viewBox="-2 -2 20 20">
+let cross = `<svg data-v-sign="cross" xmlns="http://www.w3.org/2000/svg" width=${sizeTicks} height=${sizeTicks} fill="${red}" class="bi bi-x-circle" viewBox="-2 -2 20 20">
   <path stroke="${red}" stroke-width="1.5" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
 </svg>`;
 
-let check = `<svg xmlns="http://www.w3.org/2000/svg" width=${sizeTicks} height=${sizeTicks} fill="${green}" class="bi bi-check-circle" viewBox="-2 -2 20 20">
+let check = `<svg data-v-sign="check" xmlns="http://www.w3.org/2000/svg" width=${sizeTicks} height=${sizeTicks} fill="${green}" class="bi bi-check-circle" viewBox="-2 -2 20 20">
   <path stroke="${green}" stroke-width="1.5" d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
 </svg>`; 
 

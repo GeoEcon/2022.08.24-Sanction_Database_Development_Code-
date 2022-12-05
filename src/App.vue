@@ -157,7 +157,7 @@ export default {
       "Entity":"#05a8e8",
       "Aircraft":"#235a9d ",
       "Vessel":"#ef1277",
-      "Any":"#888"
+      "Any":"#f959b5"
     };
     const donutObj = [
       {

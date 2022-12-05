@@ -36,7 +36,7 @@
               'background-color': selectedVals.includes(btn.label) ? btn.color : '#fff',
               'opacity': selectedVals.includes(btn.label) ? 1 : 0.6
             }" 
-            class="btn-margin flex justify-center font-bold cursor-pointer px-4 py-2 rounded-sm border-2"
+            class="btn-margin flex justify-center font-bold cursor-pointer px-4 py-2 rounded-lg border-2"
           >
             <div>{{ btn.label }}</div>
           </TheButton>
@@ -115,46 +115,46 @@
 
         <!-- In-table customization -->
         <template v-slot:item.entity_individual="{ item }">
-          <div class="text-lg" v-html="item.entity_individual"></div> 
+          <div class="text-lg col-entity" v-html="item.entity_individual"></div> 
         </template>
 
         <template v-slot:item.Australia="{ item }">
-          <div class="flex justify-center" v-html="item.Australia"></div> 
+          <div class="flex justify-center col-generic" v-html="item.Australia"></div> 
         </template>
 
         <template v-slot:item.Canada="{ item }">
-          <div class="flex justify-center" v-html="item.Canada"></div> 
+          <div class="flex justify-center col-generic" v-html="item.Canada"></div> 
         </template>
 
         <template v-slot:item.Switzerland="{ item }">
-          <div class="flex justify-center" v-html="item.Switzerland"></div> 
+          <div class="flex justify-center col-generic" v-html="item.Switzerland"></div> 
         </template>
 
         <template v-slot:item.EU="{ item }">
-          <div class="flex justify-center" v-html="item.EU"></div> 
+          <div class="flex justify-center col-generic" v-html="item.EU"></div> 
         </template>
 
         <template v-slot:item.UK="{ item }">
-          <div class="flex justify-center" v-html="item.UK"></div> 
+          <div class="flex justify-center col-generic" v-html="item.UK"></div> 
         </template>
 
         <template v-slot:item.US="{ item }">
-          <div class="flex justify-center" v-html="item.US"></div> 
+          <div class="flex justify-center col-generic" v-html="item.US"></div> 
         </template>
 
         <template v-slot:item.Japan="{ item }">
-          <div class="flex justify-center" v-html="item.Japan"></div> 
+          <div class="flex justify-center col-generic" v-html="item.Japan"></div> 
         </template>
 
         <template v-slot:item.Type="{ item }">
           <span 
             :style="{ 'background-color': colMap[item.Type] }"
-            class="text-lg font-bold px-2 py-1 text-white rounded-lg text-md" v-html="item.Type"
+            class="text-lg font-bold px-2 py-1 text-white rounded-lg text-md col-type" v-html="item.Type"
           ></span> 
         </template>
 
         <template v-slot:item.SanctionList="{ item }">
-          <div class="max-w-xs" v-html="item.SanctionList"></div>  
+          <div class="col-sanction-list" v-html="item.SanctionList"></div>  
         </template>
 
       </v-data-table>
@@ -394,6 +394,29 @@ export default {
 
 <style>
 
+table {
+  width:110% !important;
+}
+
+.col-generic {
+
+}
+
+.col-entity {
+  min-width: 300px;
+  max-width: 400px;
+}
+
+.col-type {
+  text-align: center !important;
+  display:block !important;
+}
+
+.col-sanction-list {
+  min-width: 300px;
+  max-width: 400px;
+}
+
 .btn-margin {
   margin-right:2px;
   width:100px;
@@ -411,6 +434,10 @@ export default {
 }
 
 @media screen and (max-width: 600px) {
+  .col-entity {
+    min-width: 200px;
+    max-width: 300px;
+  }
   .search-size {
     min-width:300px;
   }

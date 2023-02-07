@@ -9,7 +9,7 @@ export default new Vuetify({
       light: {
 
         // Color is applied to selected drop down item
-        primary: '#9B59B6',
+        primary: '#05a8e8',
         
         // Uncomment this to make things worse
         //'primary--text': '#FF00FF'

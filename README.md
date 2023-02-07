@@ -1,5 +1,8 @@
 # Russians Sanctions
 
+Beware, the env changes at every update. Either 
+`2022.08.15-Sanction_Database` or `2022.12.7-Russia_Sanctions_Database_Demo`
+
 ## Project Info
 
 - using vuejs with `vuetify`. First, set up vue and right after, **vuetify**
@@ -29,6 +32,27 @@ npm run serve
 
 ```
 npm run build && surge dist/ -d atlantic-sanctions.surge.sh
+```
+
+### new test env on github
+
+UPDATE the `vue.config.js` file prior to deploying:  
+```
+publicPath: '/2022.12.7-Russia_Sanctions_Database_Demo/',
+```
+
+build and push the `dist` folder to github:  
+```
+npm run build
+open ../
+``` 
+remove then copy then past then 
+```
+cd ../2022.12.7-Russia_Sanctions_Database_Demo/
+git add .
+gm "test build"
+git push
+cd ../dev_env_Sanction_Database/
 ```
 
 ### Compiles and minifies for production, updating the repo

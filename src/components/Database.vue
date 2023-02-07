@@ -27,7 +27,6 @@
       <!--<div class="flex ml-3">-->
         <div class="" v-for="btn in btns" :key="btn.id">
 
-
           <div 
             @click="toggle($event);animation()"
             :style="{ 
@@ -68,15 +67,22 @@
         </template>
 
         <template v-slot:header.Australia="{ header }">
-          <div class="flex flex-col items-center">
+          <div class="flex flex-col items-center header-country">
             <div class="flex"> 
               <img :src="path + 'flags/australia_min.png'" class="rounded-full my-1 mx-1">
               <span class="font-bold text-lg main-color">{{ header.text }}</span>
             </div>
-            <div  class="flex justify-center">
-              <div data-v-filter="Australia" data-v-mark="check" @click="sanctionFilters" class="cursor-pointer" v-html="checkInner"></div>
-              <div data-v-filter="Australia" data-v-mark="cross" @click="sanctionFilters" class="cursor-pointer" v-html="crossInner"></div>
+
+            <div>
+              <v-select
+                @change="sanctionFiltersChange('Australia', $event)"
+                :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
+                label="All"
+                dense
+            ></v-select>
             </div>
+            
+
           </div>
         </template>
 
@@ -86,10 +92,14 @@
               <img :src="path + 'flags/canada_min.png'" class="rounded-full my-1 mx-1">
               <span class="font-bold text-lg main-color">{{ header.text }}</span>
             </div>
-            <div class="flex justify-center">
-              <div data-v-filter="Canada" data-v-mark="check" @click="sanctionFilters" class="cursor-pointer" v-html="checkInner"></div>
-              <div data-v-filter="Canada" data-v-mark="cross" @click="sanctionFilters" class="cursor-pointer" v-html="crossInner"></div>
-            </div>
+
+            <v-select
+              @change="sanctionFiltersChange('Canada', $event)"
+              :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
+              label="All"
+              dense
+            ></v-select>
+
           </div>
         </template>
 
@@ -99,10 +109,14 @@
               <img :src="path + 'flags/eu_min.png'" class="rounded-full my-1 mx-1">
               <span class="font-bold text-lg main-color">{{ header.text }}</span>
             </div>
-            <div class="flex justify-center">
-              <div data-v-filter="EU" data-v-mark="check" @click="sanctionFilters" class="cursor-pointer" v-html="checkInner"></div>
-              <div data-v-filter="EU" data-v-mark="cross" @click="sanctionFilters" class="cursor-pointer" v-html="crossInner"></div>
-            </div>
+            
+            <v-select
+              @change="sanctionFiltersChange('EU', $event)"
+              :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
+              label="All"
+              dense
+            ></v-select>
+
           </div>
         </template>
 
@@ -112,10 +126,14 @@
               <img :src="path + 'flags/sw_min.png'" class="rounded-full my-1 mx-1">
               <span class="font-bold text-lg main-color">{{ header.text }}</span>
             </div>
-            <div class="flex justify-center">
-              <div data-v-filter="Switzerland" data-v-mark="check" @click="sanctionFilters" class="cursor-pointer" v-html="checkInner"></div>
-              <div data-v-filter="Switzerland" data-v-mark="cross" @click="sanctionFilters" class="cursor-pointer" v-html="crossInner"></div>
-            </div>
+
+            <v-select
+              @change="sanctionFiltersChange('Switzerland', $event)"
+              :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
+              label="All"
+              dense
+            ></v-select>
+
           </div>
         </template>
 
@@ -125,10 +143,14 @@
               <img :src="path + 'flags/uk_min.png'" class="rounded-full my-1 mx-1">
               <span class="font-bold text-lg main-color">{{ header.text }}</span>
             </div>
-            <div class="flex justify-center">
-              <div data-v-filter="UK" data-v-mark="check" @click="sanctionFilters" class="cursor-pointer" v-html="checkInner"></div>
-              <div data-v-filter="UK" data-v-mark="cross" @click="sanctionFilters" class="cursor-pointer" v-html="crossInner"></div>
-            </div>
+
+            <v-select
+              @change="sanctionFiltersChange('UK', $event)"
+              :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
+              label="All"
+              dense
+            ></v-select>
+            
           </div>
         </template>
 
@@ -138,10 +160,14 @@
               <img :src="path + 'flags/us_min.png'" class="rounded-full my-1 mx-1">
               <span class="font-bold text-lg main-color">{{ header.text }}</span>
             </div>
-            <div class="flex justify-center">
-              <div data-v-filter="US" data-v-mark="check" @click="sanctionFilters" class="cursor-pointer" v-html="checkInner"></div>
-              <div data-v-filter="US" data-v-mark="cross" @click="sanctionFilters" class="cursor-pointer" v-html="crossInner"></div>
-            </div>
+
+            <v-select
+              @change="sanctionFiltersChange('US', $event)"
+              :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
+              label="All"
+              dense
+            ></v-select>
+
           </div>
         </template>
 
@@ -151,10 +177,14 @@
               <img :src="path + 'flags/japan_min.png'" class="rounded-full my-1 mx-1">
               <span class="font-bold text-lg main-color">{{ header.text }}</span>
             </div>
-            <div class="flex justify-center">
-              <div data-v-filter="Japan" data-v-mark="check" @click="sanctionFilters" class="cursor-pointer" v-html="checkInner"></div>
-              <div data-v-filter="Japan" data-v-mark="cross" @click="sanctionFilters" class="cursor-pointer" v-html="crossInner"></div>
-            </div>
+
+            <v-select
+              @change="sanctionFiltersChange('Japan', $event)"
+              :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
+              label="All"
+              dense
+            ></v-select>
+
           </div>
         </template>
 
@@ -327,40 +357,43 @@ export default {
         this.selectedVals = [ "Individual", "Entity", "Vessel", "Aircraft", "Any"];
       }
     },
-    sanctionFilters(e) {
-      const country = e.target.parentNode.parentNode.dataset.vFilter;
-      const val = e.target.parentNode.parentNode.dataset.vMark;
-      if ( this.colDict[country].includes(val) ) {
-        this.colDict[country] = this.colDict[country].filter(e => e != val);
-        e.target.setAttribute("stroke", "#ccc");
+    sanctionFiltersChange(c, e) {      
+
+      const country = c;
+      const val = e;
+
+      
+      if (val == "✅ Sanctioned") {
+        this.colDict[country] = ["check"];
+      } else if ( val == "❌ Not Sanctioned") {
+        this.colDict[country] = ["cross"];
       } else {
-        this.colDict[country].push(val)
-        if (val == 'check') {
-          e.target.setAttribute("stroke", green);
-        } else {
-          e.target.setAttribute("stroke", red);
-        }
+        this.colDict[country] = ["check", "cross"];
       }
+
+      console.log(country, val, this.colDict[country])
+      
+      
     },
     vuetifyUpdate() {
+      
+      // removing search bar arrow
       const searchIcons = document.getElementsByClassName('mdi-menu-down');
-      for (const c of searchIcons) {
-        c.classList.replace('mdi-menu-down', 'mdi-magnify');
-        c.style.color = "rgba(0,0,0,0)";
-      }
+      const c = searchIcons[0];
+      c.classList.replace('mdi-menu-down', 'mdi-magnify');
+      c.style.display = "none"
+      c.style.color = "rgba(0,0,0,0)";
+      
       const leftArrow = document.getElementsByClassName('mdi-chevron-left');
       for (const c of leftArrow) {
         c.classList.replace('mdi-chevron-left', 'mdi-chevron-left-circle');
         c.style.color = "#05a8e8";
       }
-      // leftArrow.style.color = "purple";
       const rightArrow = document.getElementsByClassName('mdi-chevron-right');
       for (const c of rightArrow) {
         c.classList.replace('mdi-chevron-right', 'mdi-chevron-right-circle');
         c.style.color = "#05a8e8";
       }
-      const details = document.getElementsByClassName('v-text-field__details');
-      details[0].remove();
       const searchOutline = document.getElementsByClassName('.primary--text');
       for (const c of searchOutline) {
         c.style.color = "#05a8e8 !important";
@@ -369,6 +402,24 @@ export default {
       for (const c of searchOutlineGlobal) {
         c.style.color = "#05a8e8 !important";
       }
+
+      // updating filter on header
+      const detailsToRemove = document.getElementsByClassName('v-text-field__details');
+      for (const c of detailsToRemove) {
+        c.style.display = "none";
+      }
+
+      const filtersBoxes = document.getElementsByClassName('v-input__control');
+      for (const c of filtersBoxes) {
+        c.style.margin = "0px 5px";
+      }
+
+      // header-country color
+      // v-label
+      const headerCountriesColor = document.getElementsByClassName('v-label');
+      console.log(headerCountriesColor[0]);
+      headerCountriesColor[0].style.color = "#05a8e8";
+      
     }
   },
   mounted() {
@@ -378,13 +429,15 @@ export default {
       item.addEventListener('click', () => {
         this.animation();
       })
-    })
+    });
+
     document.querySelectorAll('.mdi-chevron-left-circle').forEach(item => {
       item.addEventListener('click', () => {
         this.animation();
       })
-    })
+    });
 
+    
   },
   data () {
     let search =  "";
@@ -469,6 +522,7 @@ export default {
               return value
             }
           }
+
         } 
       },
       { text: 'AU', 
@@ -651,8 +705,18 @@ img {
   border: 1px solid #bbb;
 }
 
+/* to debate
 th {
   max-width:70px;
+}
+*/
+
+th {
+  padding: 0 !important;
+}
+
+th.text-start {
+  padding: 0 8px !important;
 }
 
 tr {
@@ -707,24 +771,39 @@ tbody {
 .v-input__slot {
   padding: 5px;
   border-radius:10px !important;
-  margin: 0px 0px !important;
+  margin: 4px 2px !important;
 }
+
+.select-sanctions > .v-input > .v-input__control > .v-input__slot {
+  padding: 5px;
+  border-radius:10px !important;
+  margin: 6px !important;
+}
+
+/*
+.mdi-menu-down {
+  display: none !important;
+}
+
+.select-sanctions > .v-input > .v-input__control > .v-input__slot > .v-select__slot > .v-input__append-inner > .v-input__icon > .mdi-menu-down {
+  display: inherit !important;
+}
+*/
 
 fieldset {
   border: 3px solid transparent !important;
 }
 
+/*
 .v-label {
   color: #05a8e8 !important;
 }
+*/
 
 .mdi-chevron-left-circle, .mdi-chevron-right-circle {
   font-size: 35px !important;
 }
 
-.mdi-menu-down {
-  display: none !important;
-}
 
 .mdi-magnigy {
   display: none !important;

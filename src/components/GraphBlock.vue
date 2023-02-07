@@ -13,6 +13,8 @@
         :count="graph.count"
         :totalSanctions="totalSanctions"
         :sanctionsCountByType="sanctionsCountByType"
+        :dataBars="graph.dataBars"
+        :updateBars="updateBars"
       />
     </div>
   </div>
@@ -26,6 +28,6 @@ export default {
   components: {
     Donut, TotalSanctions
   },
-  props: ["donutObj", "totalEntries", "totalSanctions", "sanctionsCountByType", "path"]
+  props: ["donutObj", "totalEntries", "totalSanctions", "sanctionsCountByType", "path", "dataBars", "updateBars"]
 }
 </script>

@@ -28,7 +28,7 @@
         <div class="" v-for="btn in btns" :key="btn.id">
 
 
-          <TheButton 
+          <div 
             @click="toggle($event);animation()"
             :style="{ 
               'border-color': btn.color, 
@@ -38,8 +38,8 @@
             }" 
             class="btn-margin flex justify-center font-bold cursor-pointer px-4 py-2 rounded-lg border-2"
           >
-            <div>{{ btn.label }}</div>
-          </TheButton>
+            <button>{{ btn.label }}</button>
+          </div>
         </div>
       </div>
     </div>
@@ -49,6 +49,7 @@
     </div>
 
     <div v-show="!showLoader">
+      <!-- :custom-sort="sortItems" has been removed -->
       <v-data-table
         :mobile-breakpoint="0"
         :headers="headers"
@@ -59,7 +60,7 @@
         class="border-none main-color"
         :search="search"
         :custom-filter="searchFunc"
-        :custom-sort="sortItems"
+        
       >
         <!-- Header customization -->
         <template v-slot:header.entity_individual="{ header }">
@@ -370,18 +371,8 @@ export default {
       }
     }
   },
-  watch: {
-    showLoader() {
-      //this.animation();
-    }
-  },
   mounted() {
     this.vuetifyUpdate();
-    /*
-    setTimeout(() => {
-      this.animation();
-    }, 1000);
-    */
 
     document.querySelectorAll('.mdi-chevron-right-circle').forEach(item => {
       item.addEventListener('click', () => {
@@ -586,10 +577,6 @@ table {
   width:110% !important;
 }
 
-.col-generic {
-
-}
-
 .col-entity {
   min-width: 300px;
   max-width: 400px;
@@ -676,12 +663,6 @@ tr {
   font-size: 1.2rem !important;
 }
 
-/*
-td {
-  max-width:240px;
-}
-*/
-
 .primary--text {
   color: #fff0 !important;
 }
@@ -702,10 +683,6 @@ td {
   max-width: 133%;
   transform: translateY(0px) scale(0) !important;
   pointer-events: auto;
-}
-
-tbody > tr:nth-child(odd) {
-  /* background-color: #05a8e810 !important; */
 }
 
 tbody {

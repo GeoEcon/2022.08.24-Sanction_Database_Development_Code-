@@ -1,5 +1,18 @@
 <template>
   <div class="shadow-md w-full h-full">
+
+    <Tooltip 
+      :title="labelPlural" 
+      :display="display"
+      :transX="transX"
+      :transY="transY"
+      :widthBars="widthBars"
+      :heightBars="heightBars"
+      :dataBars="dataBars"
+      :updateBars="updateBars"
+      :color="color"
+    />
+
     <div class="p-4 flex ">
       <div class="relative">
         <svg class="mx-auto" :width="width" :height="height" :id="id">
@@ -18,10 +31,14 @@
 
 <script>
 import * as d3 from "d3";
+import Tooltip from './Tooltip.vue';
 
 export default {
   name: 'Donut',
-  props: ["color", "label", "labelPlural", "id", "count", "totalSanctions", "sanctionsCountByType"],
+  components: {
+    Tooltip
+  },
+  props: ["color", "label", "labelPlural", "id", "count", "totalSanctions", "sanctionsCountByType", "dataBars", "updateBars"],
   computed: {
     formattedPercentage() {
       let val = (this.sanctionsCountByType[this.label]/this.totalSanctions) * 100;
@@ -46,20 +63,20 @@ export default {
         }
       ] 
 
+      const ref = this;
+
       const svg = d3.select(`#${this.id}`);
 
       const width = this.width;
       const height = this.height;
-
-      // const arcs = d3.pie().padAngle(padAngle).sort(null).value(i => V[i])(I);
-      // const arc = d3.arc().innerRadius(innerRadius).outerRadius(outerRadius);
+      const margin = 5;
 
       const pie = d3.pie()
         .value((d) => d.val)
       
       const arc = d3.arc()
-        .innerRadius(width/3)
-        .outerRadius(width/2)
+        .innerRadius(width/3 - margin)
+        .outerRadius(width/2 - margin)
       
       svg.attr("width", width)
       .attr("height", height)
@@ -67,15 +84,44 @@ export default {
       .attr("style", "max-width: 100%; height: auto; height: intrinsic;");
 
       svg.append("g")
-        //.attr("stroke", stroke)
-        //.attr("stroke-width", strokeWidth)
-        //.attr("stroke-linejoin", strokeLinejoin)
       .selectAll("path")
       .data(pie(data))
       .join("path")
+        .attr("stroke", "#000")
+        .attr("stroke-width", 2)
+        .attr("stroke-opacity", 0)
         .attr("fill", this.color)
+        .attr("data-graph-type", `graph-${this.id}`)
+        .attr("class", "svg-arc") // should be unique based on mouseover actions
         .attr("opacity", (d,i) => data[i].opacity)
         .attr("d", arc) 
+      .on('mousemove', mousemove)
+      .on('mouseleave', mouseleave)
+
+      // mouseover events
+      function mousemove(e) {
+        d3.selectAll(`[data-graph-type="${this.dataset['graphType']}"]`)
+          .attr("stroke-opacity", 1);
+
+        ref.display = true;
+        ref.transY = e.clientY + 20;
+        if (e.clientX < window.innerWidth / 2) {
+          ref.transX = e.clientX + 20;
+        } else {
+          ref.transX = e.clientX -  ref.widthBars - 40;
+        }
+        
+      }
+
+      // mouseover events
+      function mouseleave() {
+        d3.selectAll(".svg-arc")
+          .attr("stroke-opacity", 0);
+
+        ref.display = false;
+        ref.transX = 0;
+        ref.transY = 0;
+      }
     }
   },
   mounted() {
@@ -89,8 +135,13 @@ export default {
   data() {
     const width = 125;
     const height = 125;
+    const widthBars = 350;
+    const heightBars = 500;
+    const display = false;
+    const transX = 0;
+    const transY = 0;
     return {
-      width, height
+      width, height, display, transX, transY, widthBars, heightBars
     }
   }
 }

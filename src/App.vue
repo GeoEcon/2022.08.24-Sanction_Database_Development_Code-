@@ -1,13 +1,14 @@
 <template>
   <v-app>
     <v-main>
-      <h1 class="font-bold text-4xl pl-2">Gaps in Western sanctions against Russia.</h1>
+      <h1 class="font-bold text-4xl pl-2">Gaps in Western sanctions against Russia</h1>
       <GraphBlock 
         :donut-obj="donutObj"
         :sanctionsCountByType="sanctionsCountByType"
         :total-entries="totalEntries"
         :total-sanctions="totalSanctions"
         :path="path"
+        :updateBars="updateBars"
       />
       <Database
         :rows="rows"
@@ -62,8 +63,6 @@ export default {
     load() {
       axios
       .get(
-        // v1 'https://docs.google.com/spreadsheets/d/1D3FmybKuCeq8AeZFlLoZfcFHJZfc1hSJsnuunTRbFxA/export?format=csv&gid=0',
-        // v2
         'https://docs.google.com/spreadsheets/d/1tledta6ChBKWBr-LUtAI3O9FY4H24hpZpb86tTNAq4w/export?format=csv&gid=0',
         { responseType: 'blob' }
       )
@@ -73,9 +72,16 @@ export default {
           csvToJson()
             .fromString(csvStr)
             .then((jsonObj) => {
-              jsonObj.forEach((e) => {               
+              jsonObj.forEach((e) => { 
+
+                for (let i = 0; i<this.countryList.length; i++) {
+                  if ( e[this.countryList[i]] == '✅') {
+                    this.sanctionsCountByTypeByCountry[e.Type][this.countryList[i]] += 1;
+                  }
+                }
 
                 // counting sanctions
+                // to improve
                 for (let [key, value] of Object.entries(e)) {
                   key == key;
                   if (value == '✅') {
@@ -83,7 +89,6 @@ export default {
                     this.sanctionsCountByType[e.Type] += 1;
                   }
                 }
-
 
                 // sorting table
                 e.entity_individual = e["Sanctioned Entity/Individual"];
@@ -111,7 +116,6 @@ export default {
 
               this.totalEntries = jsonObj.length;
 
-
               this.entList = jsonObj.map(function(e) {
                 const item = {
                   "label": e.entity_individual,
@@ -125,14 +129,14 @@ export default {
                 return item
               });
 
-              
               for (let i=0; i<this.donutObj.length;i++) {
-                const filteredArray = flatTypes.filter(e => e === this.donutObj[i].label)
+                const filteredArray = flatTypes.filter(e => e === this.donutObj[i].label);
                 this.donutObj[i].count = filteredArray.length;
               }
+
               this.rows = jsonObj;
-              console.log(jsonObj);
               this.showLoader = false;
+              this.updateBars = true;
             });
         });
       })
@@ -140,6 +144,10 @@ export default {
   },
   data() {
     const path = '2022.12.7-Russia_Sanctions_Database_Demo/';
+    const countryList = [
+      "US", "UK", "EU", "Switzerland", "Canada", "Australia", "Japan"
+    ];
+    const updateBars = false;
     let entList = [];
     let showLoader = true;
     let rows = [
@@ -163,34 +171,52 @@ export default {
       "Vessel":"#ef1277",
       "Any":"#f959b5"
     };
+    const sanctionsCountByTypeByCountry = {
+      "Individual": {
+        "US":0, "UK":0, "EU":0, "Switzerland":0, "Australia":0, "Canada":0, "Japan":0
+      },
+      "Entity":  {
+        "US":0, "UK":0, "EU":0, "Switzerland":0, "Australia":0, "Canada":0, "Japan":0
+      },
+      "Vessel":  {
+        "US":0, "UK":0, "EU":0, "Switzerland":0, "Australia":0, "Canada":0, "Japan":0
+      },
+      "Aircraft":  {
+        "US":0, "UK":0, "EU":0, "Switzerland":0, "Australia":0, "Canada":0, "Japan":0
+      }
+    };
     const donutObj = [
       {
         "label": "Individual",
         "labelPlural": "Individuals",
         "id": "individual",
         "color":colMap["Individual"],
-        "count": 0
+        "count": 0,
+        "dataBars": sanctionsCountByTypeByCountry["Individual"]
       },
       {
         "label": "Entity",
         "labelPlural": "Entities",
         "id": "entity",
         "color":colMap["Entity"],
-        "count": 0
+        "count": 0,
+        "dataBars": sanctionsCountByTypeByCountry["Entity"]
       },
       {
         "label": "Vessel",
         "labelPlural": "Vessels",
         "id": "vessel",
         "color":colMap["Vessel"],
-        "count": 0
+        "count": 0,
+        "dataBars": sanctionsCountByTypeByCountry["Vessel"]
       },
       {
         "label": "Aircraft",
         "labelPlural": "Aircraft",
         "id": "aircraft",
         "color":colMap["Aircraft"],
-        "count": 0
+        "count": 0,
+        "dataBars": sanctionsCountByTypeByCountry["Aircraft"]
       }
     ];
     const totalEntries = 1;
@@ -202,6 +228,7 @@ export default {
       "Aircraft": 0
     };
     return {
+      countryList,
       path,
       rows,
       showLoader,
@@ -210,7 +237,9 @@ export default {
       colMap,
       totalEntries,
       totalSanctions,
-      sanctionsCountByType
+      sanctionsCountByType,
+      sanctionsCountByTypeByCountry,
+      updateBars
     }
   },
   created() {

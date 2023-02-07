@@ -1,18 +1,20 @@
 <template>
   <v-app>
     <v-main>
-      <h1 class="font-bold text-4xl">Gaps in Western sanctions against Russia</h1>
+      <h1 class="font-bold text-4xl pl-2">Gaps in Western sanctions against Russia</h1>
       <GraphBlock 
         :donut-obj="donutObj"
         :sanctionsCountByType="sanctionsCountByType"
         :total-entries="totalEntries"
         :total-sanctions="totalSanctions"
+        :path="path"
       />
       <Database
         :rows="rows"
         :entList="entList"
         :showLoader="showLoader"
         :colMap="colMap"
+        :path="path"
       />
     </v-main>
   </v-app>
@@ -129,6 +131,7 @@ export default {
                 this.donutObj[i].count = filteredArray.length;
               }
               this.rows = jsonObj;
+              console.log(jsonObj);
               this.showLoader = false;
             });
         });
@@ -136,6 +139,7 @@ export default {
     },
   },
   data() {
+    const path = '2022.12.7-Russia_Sanctions_Database_Demo/';
     let entList = [];
     let showLoader = true;
     let rows = [
@@ -198,6 +202,7 @@ export default {
       "Aircraft": 0
     };
     return {
+      path,
       rows,
       showLoader,
       entList,

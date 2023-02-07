@@ -2,7 +2,7 @@
   <div>
     <div class="shadow-md p-4 flex w-full h-full items-center justify-around">
       <div>
-        <img src="/avatar.png">
+        <img :src="path + 'avatar.png'">
       </div>
       <div class="h-full">
         <div class="font-bold px-2 text-2xl text-left">{{ totalSanctions }}</div>
@@ -14,7 +14,7 @@
 
 <script>
   export default {
-    props: ["totalSanctions"],
+    props: ["totalSanctions", "path"],
     
   }
 </script>

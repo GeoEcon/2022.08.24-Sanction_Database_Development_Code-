@@ -2,6 +2,7 @@
   <div class="grid sm:grid-cols-5 sm:p-8 p-2 gap-4 items-stretch text-center" >
     <TotalSanctions 
       :totalSanctions="totalSanctions"
+      :path="path"
     />
     <div v-for="graph in donutObj" :key="graph.id">
       <Donut 
@@ -25,6 +26,6 @@ export default {
   components: {
     Donut, TotalSanctions
   },
-  props: ["donutObj", "totalEntries", "totalSanctions", "sanctionsCountByType"]
+  props: ["donutObj", "totalEntries", "totalSanctions", "sanctionsCountByType", "path"]
 }
 </script>

@@ -1,9 +1,9 @@
 <template>
   <div class="border-none">
-    <div class="grid grid-cols-1 gap-2 sm:grid-cols-5 border-none inline-flex self-center main-color mb-4 mt-6">
+    <div class="grid grid-cols-1 gap-2 lg:grid-cols-5 border-none inline-flex self-center main-color mb-4 mt-6">
     <!--<div class="border-none inline-flex self-center main-color mb-4 mt-6">-->
       <!--<div class="mx-2 search-size border-2 border-prim rounded-md flex items-center">-->
-      <div class="mx-2 search-size border-2 col-span-2 border-prim rounded-md flex items-center">
+      <div class="sm:mx-2 mx-1 search-size border-2 col-span-2 border-prim rounded-md flex items-center">
         <div class="p-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#05a8e8" class="bi bi-search" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
@@ -23,7 +23,7 @@
           </svg>
         </div>
       </div>
-      <div class="self-center gap-1 grid sm:grid-cols-5 grid-cols-2 col-span-2 flex justify-items-center">
+      <div class="self-center gap-1 grid md:grid-cols-5 grid-cols-2 col-span-2 lg:col-span-3 xl:col-span-2 flex justify-items-center">
       <!--<div class="flex ml-3">-->
         <div class="" v-for="btn in btns" :key="btn.id">
 
@@ -59,6 +59,7 @@
         class="border-none main-color"
         :search="search"
         :custom-filter="searchFunc"
+        :custom-sort="sortItems"
       >
         <!-- Header customization -->
         <template v-slot:header.entity_individual="{ header }">
@@ -67,8 +68,8 @@
 
         <template v-slot:header.Australia="{ header }">
           <div class="flex flex-col items-center">
-            <div class="flex">
-              <img src="/flags/australia_min.png" class="rounded-full my-1 mx-1">
+            <div class="flex"> 
+              <img :src="path + 'flags/australia_min.png'" class="rounded-full my-1 mx-1">
               <span class="font-bold text-lg main-color">{{ header.text }}</span>
             </div>
             <div  class="flex justify-center">
@@ -81,7 +82,7 @@
         <template v-slot:header.Canada="{ header }">
           <div class="flex flex-col items-center">
             <div class="flex">
-              <img src="/flags/canada_min.png" class="rounded-full my-1 mx-1">
+              <img :src="path + 'flags/canada_min.png'" class="rounded-full my-1 mx-1">
               <span class="font-bold text-lg main-color">{{ header.text }}</span>
             </div>
             <div class="flex justify-center">
@@ -94,7 +95,7 @@
         <template v-slot:header.EU="{ header }">
           <div class="flex flex-col items-center">
             <div class="flex">
-              <img src="/flags/eu_min.png" class="rounded-full my-1 mx-1">
+              <img :src="path + 'flags/eu_min.png'" class="rounded-full my-1 mx-1">
               <span class="font-bold text-lg main-color">{{ header.text }}</span>
             </div>
             <div class="flex justify-center">
@@ -107,7 +108,7 @@
         <template v-slot:header.Switzerland="{ header }">
           <div class="flex flex-col items-center">
             <div class="flex">
-              <img src="/flags/sw_min.png" class="rounded-full my-1 mx-1">
+              <img :src="path + 'flags/sw_min.png'" class="rounded-full my-1 mx-1">
               <span class="font-bold text-lg main-color">{{ header.text }}</span>
             </div>
             <div class="flex justify-center">
@@ -120,7 +121,7 @@
         <template v-slot:header.UK="{ header }">
           <div class="flex flex-col items-center">
             <div class="flex">
-              <img src="/flags/uk_min.png" class="rounded-full my-1 mx-1">
+              <img :src="path + 'flags/uk_min.png'" class="rounded-full my-1 mx-1">
               <span class="font-bold text-lg main-color">{{ header.text }}</span>
             </div>
             <div class="flex justify-center">
@@ -133,7 +134,7 @@
         <template v-slot:header.US="{ header }">
           <div class="flex flex-col items-center">
             <div class="flex">
-              <img src="/flags/us_min.png" class="rounded-full my-1 mx-1">
+              <img :src="path + 'flags/us_min.png'" class="rounded-full my-1 mx-1">
               <span class="font-bold text-lg main-color">{{ header.text }}</span>
             </div>
             <div class="flex justify-center">
@@ -146,7 +147,7 @@
         <template v-slot:header.Japan="{ header }">
           <div class="flex flex-col items-center">
             <div class="flex">
-              <img src="/flags/japan_min.png" class="rounded-full my-1 mx-1">
+              <img :src="path + 'flags/japan_min.png'" class="rounded-full my-1 mx-1">
               <span class="font-bold text-lg main-color">{{ header.text }}</span>
             </div>
             <div class="flex justify-center">
@@ -232,6 +233,9 @@ let checkInner = `<svg data-v-sign="check" xmlns="http://www.w3.org/2000/svg" wi
 
 export default {
   props: {
+    path: {
+      type: String
+    },
     showLoader: {
       type: Boolean,
       default: true
@@ -264,7 +268,8 @@ export default {
   computed: {
     entListFiltered() {
       const filtre = this.entList.filter(e => this.selectedVals.includes(e.type));
-      const listNew = filtre.map(e => e.label);
+      let listNew = filtre.map(e => e.label);
+      listNew.sort((a, b) => a.localeCompare(b));
       return listNew
     },
     searchLabel() {
@@ -610,13 +615,11 @@ table {
   min-width:400px;
 }
 
-@media screen and (max-width: 992px) {
-  .search-size {
-    min-width:300px;
-  }
+.v-data-footer {
+  padding-right: 80px !important;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 992px) {
   .col-entity {
     min-width: 200px;
     max-width: 300px;
@@ -626,8 +629,29 @@ table {
   }
   .btn-margin {
     margin-right:2px;
-    width:150px;
+    width:130px;
     text-align:center;
+  }
+  .v-data-footer {
+    padding-right: 40px !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .col-entity {
+    min-width: 200px;
+    max-width: 300px;
+  }
+  .search-size {
+    min-width:200px;
+  }
+  .btn-margin {
+    margin-right:0px;
+    width:130px;
+    text-align:center;
+  }
+  .v-data-footer {
+    padding-right: 20px !important;
   }
 }
 
@@ -727,10 +751,6 @@ fieldset {
 
 .mdi-magnigy {
   display: none !important;
-}
-
-.v-data-footer {
-  padding-right: 20px !important;
 }
 
 /* Safari */

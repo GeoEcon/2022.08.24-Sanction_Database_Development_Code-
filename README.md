@@ -3,6 +3,13 @@
 Beware, the env changes at every update. Either 
 `2022.08.15-Sanction_Database` or `2022.12.7-Russia_Sanctions_Database_Demo`
 
+## to do
+
+- clean code
+- add bar charts on hover on top of donuts
+- add dropdown on columns
+- ability to remvoe columns
+
 ## Project Info
 
 - using vuejs with `vuetify`. First, set up vue and right after, **vuetify**

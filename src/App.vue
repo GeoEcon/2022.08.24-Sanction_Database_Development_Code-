@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <h1 class="font-bold text-4xl pl-2">Gaps in Western sanctions against Russia</h1>
+      <h1 class="font-bold text-4xl pl-2">Gaps in Western sanctions against Russia.</h1>
       <GraphBlock 
         :donut-obj="donutObj"
         :sanctionsCountByType="sanctionsCountByType"

@@ -5,9 +5,9 @@
       'transform' : `translate(${transX}px,${transY}px)`,
       'border' : `2px solid ${color}`
     }" 
-    class="p-4 pb-0 rounded-lg shadow-md bg-white absolute z-50 top-0 left-0">
+    class="py-2 rounded-lg shadow-md bg-white absolute z-50 top-0 left-0">
 
-    <div class="text-left text-lg font-bold py-2">Sanctioned <span :style="{ 'color': this.color }" class="uppercase">{{ title }}</span> Per Geography</div> 
+    <div class="text-center text-lg font-bold pb-2" :style="{ 'border-bottom' : `2px solid ${color}` }">Sanctioned <span :style="{ 'color': this.color }" class="uppercase">{{ title }}</span> Per Geography</div> 
     <div :id="`bars-svg-${title}`">
     </div>
   </div>
@@ -35,7 +35,7 @@ export default {
       // Construct scales and axes.
       const xDomain = [0, d3.max(data, d => d.value)]; // to fix // [0, d3.max(X)]
       const yDomain = d3.groupSort(data, ([d]) => -d.value, d => d.country); // d3.groupSort(alphabet, ([d]) => -d.frequency, d => d.letter)
-      const yPadding = 0.6;
+      const yPadding = 0.4;
       // const xFormat = "";
       const xLabel = "Sanctions →";
       const xScale = d3.scaleLinear(xDomain, [margin, width - margin]);
@@ -86,7 +86,7 @@ export default {
             .attr("text-anchor", "start")
             .attr("font-weight", "bold")
             .attr("font-size", 15)
-            .attr("transform", `translate(2,-20)`))
+            .attr("transform", `translate(2,-26)`))
         .call(g => g.select(".domain").remove());
 
       // value on bar

@@ -3,7 +3,7 @@
     <div class="grid grid-cols-1 gap-2 lg:grid-cols-5 border-none inline-flex self-center main-color mb-4 mt-6">
     <!--<div class="border-none inline-flex self-center main-color mb-4 mt-6">-->
       <!--<div class="mx-2 search-size border-2 border-prim rounded-md flex items-center">-->
-      <div class="sm:mx-2 mx-1 search-size border-2 col-span-2 border-prim rounded-md flex items-center">
+      <div id="search" class="sm:mx-2 mx-1 search-size border-2 col-span-2 border-prim rounded-md flex items-center">
         <div class="p-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#05a8e8" class="bi bi-search" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
@@ -417,9 +417,18 @@ export default {
       // header-country color
       // v-label
       const headerCountriesColor = document.getElementsByClassName('v-label');
-      console.log(headerCountriesColor[0]);
       headerCountriesColor[0].style.color = "#05a8e8";
+
+      const inputToCenter = document.getElementsByClassName('v-label v-label--active theme--light primary--text');
+      console.log("vlabel", inputToCenter);
+      // v-label v-label--active theme--light primary--text
       
+      const fieldset = document.getElementsByTagName('fieldset');
+      for (const c of fieldset) {
+        c.style.border = "1px solid purple !important";
+        c.style["border-radius"] = "3px !important";
+        console.log(c);
+      }
     }
   },
   mounted() {
@@ -790,9 +799,16 @@ tbody {
 }
 */
 
-fieldset {
+
+#search fieldset {
   border: 3px solid transparent !important;
 }
+
+.v-label .v-label--active .theme--light .primary--text {
+  color: purple !important;
+  
+}
+
 
 /*
 .v-label {
@@ -818,6 +834,34 @@ fieldset {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.v-input__slot {
+  border:1px solid #d7eefc ;
+  border-radius: 5px !important;
+  background-color: #d7eefc ;
+}
+
+.v-input__slot::after {
+  border:1px solid #bbb;
+  border-radius: 5px !important;
+  background-color: #d7eefc ;
+}
+
+#search .v-input__slot {
+  border:0px solid transparent !important;
+}
+
+#search .v-input__slot::after {
+  border:0px solid transparent !important;
+}
+
+.theme--light.v-text-field > .v-input__control > .v-input__slot::before {
+  border:transparent;
+}
+
+.theme--light.v-text-field > .v-input__control > .v-input__slot::after {
+  border:transparent;
 }
 
 </style>

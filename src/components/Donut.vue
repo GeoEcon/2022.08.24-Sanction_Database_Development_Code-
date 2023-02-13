@@ -11,6 +11,7 @@
       :dataBars="dataBars"
       :updateBars="updateBars"
       :color="color"
+      :triggerTransition="triggerTransition"
     />
 
     <div class="p-4 flex ">
@@ -97,12 +98,20 @@ export default {
         .attr("d", arc) 
       .on('mousemove', mousemove)
       .on('mouseleave', mouseleave)
+      .on('mouseenter', mouseenter)
 
       // mouseover events
+      function mouseenter() {
+        // transition
+        ref.triggerTransition = true;
+        
+      }
+
       function mousemove(e) {
         d3.selectAll(`[data-graph-type="${this.dataset['graphType']}"]`)
           .attr("stroke-opacity", 1);
 
+        // ref.triggerTransition = true;
         ref.display = true;
         ref.transY = e.clientY + 20;
         if (e.clientX < window.innerWidth / 2) {
@@ -118,6 +127,7 @@ export default {
         d3.selectAll(".svg-arc")
           .attr("stroke-opacity", 0);
 
+        ref.triggerTransition = false;
         ref.display = false;
         ref.transX = 0;
         ref.transY = 0;
@@ -140,8 +150,9 @@ export default {
     const display = false;
     const transX = 0;
     const transY = 0;
+    const triggerTransition = false;
     return {
-      width, height, display, transX, transY, widthBars, heightBars
+      width, height, display, transX, transY, widthBars, heightBars, triggerTransition
     }
   }
 }

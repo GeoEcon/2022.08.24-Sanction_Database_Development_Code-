@@ -7,7 +7,7 @@
     }" 
     class="py-2 rounded-lg shadow-md bg-white absolute z-50 top-0 left-0">
 
-    <div class="text-center text-lg font-bold pb-2" :style="{ 'border-bottom' : `2px solid ${color}` }">Sanctioned <span :style="{ 'color': this.color }" class="uppercase">{{ title }}</span> Per Geography</div> 
+    <div class="text-center text-lg font-bold pb-2" :style="{ 'border-bottom' : `0px solid ${color}` }">Sanctioned <span :style="{ 'color': this.color }" class="uppercase">{{ title }}</span> By Countries</div> 
     <div :id="`bars-svg-${title}`">
     </div>
   </div>
@@ -17,9 +17,14 @@
 import * as d3 from "d3";
 
 export default {
-  props: ["title", "display", "transX", "transY", "widthBars", "heightBars", "dataBars", "updateBars", "color"],
+  props: ["title", "display", "triggerTransition", "transX", "transY", "widthBars", "heightBars", "dataBars", "updateBars", "color"],
   methods: {
     drawBars() {
+
+      // cleaning 
+      d3.select(`#bars-svg-${this.title}`)
+        .html('');
+
       // restructuring dataBars to be barChart friendly
       let data = [];
       for (let [key, value] of Object.entries(this.dataBars)) {
@@ -66,18 +71,26 @@ export default {
             .attr("text-anchor", "end")
             .text(xLabel));
 
+
       svg.append("g")
         .attr("fill", this.color)
         .selectAll("rect")
         .data(data)
         .join("rect")
         .attr("rx", "2px")
+        .attr("id", `bar-${this.title}`)
         .attr("ry", "2px")
         .attr("stroke-linecap", "round")
         .attr("x", xScale(0))
         .attr("y", d => yScale(d.country))
-        .attr("width", d => xScale(d.value) - xScale(0))
-        .attr("height", yScale.bandwidth());
+        .attr("width", 0)
+        .attr("height", yScale.bandwidth())
+        .transition()
+          .delay(0)
+          .duration(1800)
+          .attr("width", d => xScale(d.value) - xScale(0))
+        
+        ;
 
       svg.append("g")
         .attr("transform", `translate(${margin},0)`)
@@ -85,17 +98,17 @@ export default {
         .call(g => g.selectAll(".tick text")
             .attr("text-anchor", "start")
             .attr("font-weight", "bold")
-            .attr("font-size", 15)
-            .attr("transform", `translate(2,-26)`))
+            .attr("font-size", 18)
+            .attr("transform", `translate(2,-30)`))
         .call(g => g.select(".domain").remove());
 
       // value on bar
       svg.append("g")
-        .attr("fill", () => this.color != "#235a9d " ? "#000000" : "#ffffff")
+        .attr("fill", () => this.color != "#235a9d " ? "#ffffff" : "#ffffff")
         .attr("text-anchor", "end")
         .attr("font-family", "sans-serif")
         .attr("font-weight", "bold")
-        .attr("font-size", 10)
+        .attr("font-size", 15)
       .selectAll("text")
       .data(data)
       .join("text")
@@ -118,10 +131,19 @@ export default {
     }
   },
   watch: {
+    /*
     updateBars(o,n) {
       console.log(o, n);
       this.drawBars();
     },
+    */
+    triggerTransition(o, n) {
+      console.log(o, n);
+      if (!n) {
+        this.drawBars();
+      }
+      
+    }
   },
 
 }

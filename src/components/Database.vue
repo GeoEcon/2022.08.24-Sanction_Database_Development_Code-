@@ -41,6 +41,28 @@
           </div>
         </div>
       </div>
+
+
+      <div id="selection-countries" class="flex items-center justify-center ">
+        <div :style="{'background-color': '#d7eefc', 'border': '1px solid #a0dbff'}" class="mx-4 rounded-md overflow-hidden overflow-clip rounded-md">
+          <div  
+          class="max-h-16"
+          >
+            <v-select
+            v-model="activeColumns"
+            :items="countries"
+            :menu-props="{ maxHeight: '400' }"
+            label="Select"
+            hint="Selected Countries"
+            multiple
+            persistent-hint
+            dense
+          ></v-select>
+          </div>
+        </div>
+      </div>
+
+
     </div>
 
     <div v-show="showLoader" class="flex justify-center">
@@ -621,6 +643,13 @@ export default {
       Canada: ["check", "cross"],
       Switzerland: ["check", "cross"],
     };
+
+    const countries = [
+      'United States', 'United Kingdom', 'European Union', 'Canada', 'Switzerland', 'Australia', 'Japan' 
+    ];
+    const activeColumns = [
+      'United States', 'United Kingdom', 'European Union', 'Canada', 'Switzerland', 'Australia', 'Japan'
+    ];
     return {
       info,
       headers,
@@ -628,7 +657,9 @@ export default {
       selectors,
       selectedVals,
       btns,
-      colDict
+      colDict,
+      countries,
+      activeColumns
     }
   },
 }
@@ -837,7 +868,7 @@ tbody {
 }
 
 .v-input__slot {
-  border:1px solid #d7eefc ;
+  border:1px solid #a0dbff ;
   border-radius: 5px !important;
   background-color: #d7eefc ;
 }
@@ -848,11 +879,11 @@ tbody {
   background-color: #d7eefc ;
 }
 
-#search .v-input__slot {
+#search .v-input__slot, #selection-countries .v-input__slot{
   border:0px solid transparent !important;
 }
 
-#search .v-input__slot::after {
+#search .v-input__slot::after, #selection-countries .v-input__slot::after{
   border:0px solid transparent !important;
 }
 

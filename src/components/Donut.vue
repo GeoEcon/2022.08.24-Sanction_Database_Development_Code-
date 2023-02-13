@@ -93,7 +93,7 @@ export default {
         .attr("stroke-opacity", 0)
         .attr("fill", this.color)
         .attr("data-graph-type", `graph-${this.id}`)
-        .attr("class", "svg-arc") // should be unique based on mouseover actions
+        .attr("class", "svg-arc cursor-pointer") // should be unique based on mouseover actions
         .attr("opacity", (d,i) => data[i].opacity)
         .attr("d", arc) 
       .on('mousemove', mousemove)

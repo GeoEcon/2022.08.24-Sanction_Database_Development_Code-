@@ -117,15 +117,7 @@ export default {
         .attr("dy", "0.35em")
         .attr("dx", -4)
         .attr("opacity", d => d.value == 0 ? 0 : 1)
-        .text(d => d.value)
-        /*
-        .call(text => text.filter(i => data[i] !== undefined ? xScale(data[i].value) - xScale(0) < 20 : '') // short bars
-            .attr("opacity", d => d.value == 0 ? 0 : 1)
-            .attr("dx", 10)
-            .attr("text-anchor", "start")
-            )
-            */
-            ;
+        .text(d => d.value);
 
       return svg
     }

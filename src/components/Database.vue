@@ -49,6 +49,7 @@
           class="max-h-16"
           >
             <v-select
+
             v-model="activeColumns"
             :items="countries"
             :menu-props="{ maxHeight: '400' }"
@@ -73,10 +74,9 @@
       <!-- :custom-sort="sortItems" has been removed -->
       <v-data-table
         :mobile-breakpoint="0"
-        :headers="headers"
+        :headers="displayHeaders()"
         :items="rows"
         :items-per-page="10"
-
         id="main-table"
         class="border-none main-color"
         :search="search"
@@ -97,14 +97,14 @@
 
             <div>
               <v-select
+                id="sanctions-Australia"
                 @change="sanctionFiltersChange('Australia', $event)"
                 :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
                 label="All"
                 dense
             ></v-select>
             </div>
-            
-
+          
           </div>
         </template>
 
@@ -119,6 +119,7 @@
               @change="sanctionFiltersChange('Canada', $event)"
               :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
               label="All"
+              id="sanctions-Canada"
               dense
             ></v-select>
 
@@ -134,6 +135,7 @@
             
             <v-select
               @change="sanctionFiltersChange('EU', $event)"
+              id="sanctions-EU"
               :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
               label="All"
               dense
@@ -151,6 +153,7 @@
 
             <v-select
               @change="sanctionFiltersChange('Switzerland', $event)"
+              id="sanctions-Switzerland"
               :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
               label="All"
               dense
@@ -167,6 +170,7 @@
             </div>
 
             <v-select
+              id="sanctions-UK"
               @change="sanctionFiltersChange('UK', $event)"
               :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
               label="All"
@@ -184,6 +188,7 @@
             </div>
 
             <v-select
+              id="sanctions-US"
               @change="sanctionFiltersChange('US', $event)"
               :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
               label="All"
@@ -201,6 +206,7 @@
             </div>
 
             <v-select
+              id="sanctions-Japan"
               @change="sanctionFiltersChange('Japan', $event)"
               :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
               label="All"
@@ -217,7 +223,6 @@
 
         <template v-slot:header.SanctionList="{ header }">
           <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          <!-- <img src="/flags/us_min.png" class="rounded-full my-1 opacity-0"> -->
         </template>
         <!-- End of Header customization -->
 
@@ -226,10 +231,11 @@
           <div class="text-lg col-entity" v-html="item.entity_individual"></div> 
         </template>
 
+        
         <template v-slot:item.Australia="{ item }">
           <div class="flex justify-center col-generic" v-html="item.Australia"></div> 
         </template>
-
+        
         <template v-slot:item.Canada="{ item }">
           <div class="flex justify-center col-generic" v-html="item.Canada"></div> 
         </template>
@@ -336,6 +342,57 @@ export default {
     },
   },
   methods: {
+    // bug to fix: update  for each header the value to all when changed
+    displayHeaders() {
+      const filteredHeaders = [];
+      const selectedColumns = ["entity_individual","SanctionList","Type"];
+      this.activeColumns.forEach(e => selectedColumns.push(e));
+
+      this.headers.forEach(it => {
+        if (selectedColumns.indexOf(it.value) != -1) {
+          filteredHeaders.push(it);
+        }
+      })
+
+      console.log(filteredHeaders);
+
+      filteredHeaders.forEach(it => {
+
+        const val = document.getElementById(`sanctions-${it.value}`);
+        if ( val != null ) {
+          const newVal = document.getElementById(`sanctions-${it.value}`).parentNode.parentNode;
+          console.log(newVal,it.value, document.getElementById(`sanctions-${it.value}`).parentNode);
+
+
+          // it's an input
+          setTimeout(() => {
+            document.getElementById(`sanctions-${it.value}`).parentNode.parentNode.lastChild.value = 'All';
+          }, 3000)
+          
+
+          console.log(newVal,it.value, document.getElementById(`sanctions-${it.value}`).parentNode.parentNode.lastChild.value);
+        } 
+        
+        /*
+        const val = document.getElementById(`sanctions-${it.value}`).parentNode.parentNode;
+        console.log(val);
+
+        if (val.lastChild.value != null ) {
+
+          if (val.lastChild.value != '') {
+            //this.sanctionFiltersChange(it.value, val.lastChild.value);
+          } else {
+            //this.sanctionFiltersChange(it.value, 'All');
+            //document.getElementById(`sanctions-${it.value}`).parentNode.parentNode.lastChild.value = 'All';
+          }
+
+        }
+        */
+
+      })
+      
+      return filteredHeaders;
+    },
     resetSearch() {
       this.search =  "";
     },
@@ -383,7 +440,6 @@ export default {
 
       const country = c;
       const val = e;
-
       
       if (val == "✅ Sanctioned") {
         this.colDict[country] = ["check"];
@@ -391,10 +447,7 @@ export default {
         this.colDict[country] = ["cross"];
       } else {
         this.colDict[country] = ["check", "cross"];
-      }
-
-      console.log(country, val, this.colDict[country])
-      
+      }      
       
     },
     vuetifyUpdate() {
@@ -431,25 +484,18 @@ export default {
         c.style.display = "none";
       }
 
-      const filtersBoxes = document.getElementsByClassName('v-input__control');
-      for (const c of filtersBoxes) {
-        c.style.margin = "0px 5px";
-      }
-
       // header-country color
       // v-label
       const headerCountriesColor = document.getElementsByClassName('v-label');
       headerCountriesColor[0].style.color = "#05a8e8";
 
-      const inputToCenter = document.getElementsByClassName('v-label v-label--active theme--light primary--text');
-      console.log("vlabel", inputToCenter);
+      //const inputToCenter = document.getElementsByClassName('v-label v-label--active theme--light primary--text');
       // v-label v-label--active theme--light primary--text
       
       const fieldset = document.getElementsByTagName('fieldset');
       for (const c of fieldset) {
         c.style.border = "1px solid purple !important";
         c.style["border-radius"] = "3px !important";
-        console.log(c);
       }
     }
   },
@@ -645,10 +691,10 @@ export default {
     };
 
     const countries = [
-      'United States', 'United Kingdom', 'European Union', 'Canada', 'Switzerland', 'Australia', 'Japan' 
+      'US', 'UK', 'EU', 'Canada', 'Switzerland', 'Australia', 'Japan' 
     ];
     const activeColumns = [
-      'United States', 'United Kingdom', 'European Union', 'Canada', 'Switzerland', 'Australia', 'Japan'
+      'US', 'UK', 'EU', 'Canada', 'Switzerland', 'Australia', 'Japan'
     ];
     return {
       info,
@@ -759,6 +805,10 @@ th.text-start {
   padding: 0 8px !important;
 }
 
+.v-text-field__details {
+  display: none !important;
+}
+
 tr {
   opacity:1;
 }
@@ -791,6 +841,10 @@ tr {
 
 tbody {
   border-top: 3px solid #555;
+}
+
+th .v-input__slot {
+  width: fit-content !important;
 }
 
 .loader {

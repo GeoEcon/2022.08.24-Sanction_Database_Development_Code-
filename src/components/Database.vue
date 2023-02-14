@@ -46,18 +46,18 @@
       <div id="selection-countries" class="flex items-center justify-center ">
         <div :style="{'background-color': '#d7eefc', 'border': '1px solid #a0dbff'}" class="mx-4 rounded-md overflow-hidden overflow-clip rounded-md">
           <div  
-          class="max-h-16"
+          class=""
           >
             <v-select
-
-            v-model="activeColumns"
-            :items="countries"
-            :menu-props="{ maxHeight: '400' }"
-            label="Select"
-            hint="Selected Countries"
-            multiple
-            persistent-hint
-            dense
+              id="dropdown-countries"
+              v-model="activeColumns"
+              :items="countries"
+              :menu-props="{ maxHeight: '400' }"
+              label="Select"
+              hint="Selected Countries"
+              multiple
+              dense
+              single-line
           ></v-select>
           </div>
         </div>
@@ -72,9 +72,14 @@
 
     <div v-show="!showLoader">
       <!-- :custom-sort="sortItems" has been removed -->
+
+      <!-- displayHeadersNew() -->
+
       <v-data-table
         :mobile-breakpoint="0"
-        :headers="displayHeaders()"
+        
+        :headers="displayHeadersNew()" 
+        
         :items="rows"
         :items-per-page="10"
         id="main-table"
@@ -342,8 +347,40 @@ export default {
     },
   },
   methods: {
+
+    displayHeadersNew() {
+
+      if (document.getElementById("sanctions-US") != undefined) {
+        const label = document.getElementById("sanctions-US");
+        label.labels[0].firstChild.data = "All";
+      }
+
+      if (document.getElementsByClassName("v-select__selection--comma") != undefined) {
+        const els = document.getElementsByClassName("v-select__selection--comma");
+
+        for (const el of els) {
+          if (el.innerText == "✅ Sanctioned" || el.innerText == "❌ Not Sanctioned") {
+            el.innerText = 'All';
+          }
+        }
+      }
+      
+      const filteredHeaders = [];
+      const selectedColumns = ["entity_individual","SanctionList","Type"];
+      this.activeColumns.forEach(e => selectedColumns.push(e));
+
+      this.headers.forEach(it => {
+        this.colDict[it.value] = ["check", "cross"];
+        if (selectedColumns.indexOf(it.value) != -1) {
+          filteredHeaders.push(it);
+        }
+      })
+
+      return filteredHeaders
+    },
     // bug to fix: update  for each header the value to all when changed
     displayHeaders() {
+      /*
       const filteredHeaders = [];
       const selectedColumns = ["entity_individual","SanctionList","Type"];
       this.activeColumns.forEach(e => selectedColumns.push(e));
@@ -373,7 +410,7 @@ export default {
           console.log(newVal,it.value, document.getElementById(`sanctions-${it.value}`).parentNode.parentNode.lastChild.value);
         } 
         
-        /*
+        
         const val = document.getElementById(`sanctions-${it.value}`).parentNode.parentNode;
         console.log(val);
 
@@ -387,11 +424,12 @@ export default {
           }
 
         }
-        */
+        
 
       })
       
       return filteredHeaders;
+      */
     },
     resetSearch() {
       this.search =  "";

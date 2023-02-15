@@ -153,12 +153,12 @@ export default {
     let rows = [
       {
         entity_individual: '',
-        Australia: '',
-        Canada: '',
-        EU: '',
-        Switzerland: '',
-        UK: '',
         US: '',
+        UK: '',
+        EU: '',
+        Canada: '',
+        Switzerland: '',
+        Australia: '',
         Japan: '',
         Type: '',
         SanctionList: ''

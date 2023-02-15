@@ -56,6 +56,7 @@
               label="Select"
               hint="Selected Countries"
               multiple
+              return-object
               dense
               single-line
           ></v-select>
@@ -77,91 +78,33 @@
 
       <v-data-table
         :mobile-breakpoint="0"
-        
-        :headers="displayHeadersNew()" 
-        
+        :headers="displayHeaders()" 
         :items="rows"
         :items-per-page="10"
         id="main-table"
         class="border-none main-color"
         :search="search"
         :custom-filter="searchFunc"
-        
       >
         <!-- Header customization -->
         <template v-slot:header.entity_individual="{ header }">
           <span class="font-bold text-lg main-color">{{ header.text }}</span>
         </template>
 
-        <template v-slot:header.Australia="{ header }">
-          <div class="flex flex-col items-center header-country">
-            <div class="flex"> 
-              <img :src="path + 'flags/australia_min.png'" class="rounded-full my-1 mx-1">
-              <span class="font-bold text-lg main-color">{{ header.text }}</span>
-            </div>
-
-            <div>
-              <v-select
-                id="sanctions-Australia"
-                @change="sanctionFiltersChange('Australia', $event)"
-                :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
-                label="All"
-                dense
-            ></v-select>
-            </div>
-          
-          </div>
-        </template>
-
-        <template v-slot:header.Canada="{ header }">
+        <template v-slot:header.US="{ header }">
           <div class="flex flex-col items-center">
             <div class="flex">
-              <img :src="path + 'flags/canada_min.png'" class="rounded-full my-1 mx-1">
+              <img :src="path + 'flags/us_min.png'" class="rounded-full my-1 mx-1">
               <span class="font-bold text-lg main-color">{{ header.text }}</span>
             </div>
 
             <v-select
-              @change="sanctionFiltersChange('Canada', $event)"
-              :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
-              label="All"
-              id="sanctions-Canada"
-              dense
-            ></v-select>
-
-          </div>
-        </template>
-
-        <template v-slot:header.EU="{ header }">
-          <div class="flex flex-col items-center">
-            <div class="flex">
-              <img :src="path + 'flags/eu_min.png'" class="rounded-full my-1 mx-1">
-              <span class="font-bold text-lg main-color">{{ header.text }}</span>
-            </div>
-            
-            <v-select
-              @change="sanctionFiltersChange('EU', $event)"
-              id="sanctions-EU"
+              id="sanctions-US"
+              v-model="defaultUS"
               :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
               label="All"
               dense
-            ></v-select>
-
-          </div>
-        </template>
-
-        <template v-slot:header.Switzerland="{ header }">
-          <div class="flex flex-col items-center">
-            <div class="flex">
-              <img :src="path + 'flags/sw_min.png'" class="rounded-full my-1 mx-1">
-              <span class="font-bold text-lg main-color">{{ header.text }}</span>
-            </div>
-
-            <v-select
-              @change="sanctionFiltersChange('Switzerland', $event)"
-              id="sanctions-Switzerland"
-              :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
-              label="All"
-              dense
+              return-object
             ></v-select>
 
           </div>
@@ -176,33 +119,92 @@
 
             <v-select
               id="sanctions-UK"
-              @change="sanctionFiltersChange('UK', $event)"
+              v-model="defaultUK"
               :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
               label="All"
               dense
+              return-object
             ></v-select>
             
           </div>
         </template>
 
-        <template v-slot:header.US="{ header }">
+        <template v-slot:header.EU="{ header }">
           <div class="flex flex-col items-center">
             <div class="flex">
-              <img :src="path + 'flags/us_min.png'" class="rounded-full my-1 mx-1">
+              <img :src="path + 'flags/eu_min.png'" class="rounded-full my-1 mx-1">
               <span class="font-bold text-lg main-color">{{ header.text }}</span>
             </div>
-
+            
             <v-select
-              id="sanctions-US"
-              @change="sanctionFiltersChange('US', $event)"
+              id="sanctions-EU"
+              v-model="defaultEU"
               :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
               label="All"
               dense
+              return-object
             ></v-select>
 
           </div>
         </template>
 
+        <template v-slot:header.Canada="{ header }">
+          <div class="flex flex-col items-center">
+            <div class="flex">
+              <img :src="path + 'flags/canada_min.png'" class="rounded-full my-1 mx-1">
+              <span class="font-bold text-lg main-color">{{ header.text }}</span>
+            </div>
+
+            <v-select
+              id="sanctions-Canada"
+              v-model="defaultCanada"
+              :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
+              label="All"
+              dense
+              return-object
+            ></v-select>
+
+          </div>
+        </template>
+
+        <template v-slot:header.Switzerland="{ header }">
+          <div class="flex flex-col items-center">
+            <div class="flex">
+              <img :src="path + 'flags/sw_min.png'" class="rounded-full my-1 mx-1">
+              <span class="font-bold text-lg main-color">{{ header.text }}</span>
+            </div>
+
+            <v-select
+              id="sanctions-Switzerland"
+              v-model="defaultSwitzerland"
+              :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
+              label="All"
+              dense
+              return-object
+            ></v-select>
+
+          </div>
+        </template>
+
+        <template v-slot:header.Australia="{ header }">
+          <div class="flex flex-col items-center">
+            <div class="flex">
+              <img :src="path + 'flags/australia_min.png'" class="rounded-full my-1 mx-1">
+              <span class="font-bold text-lg main-color">{{ header.text }}</span>
+            </div>
+
+            <v-select
+              id="sanctions-Australia"
+              v-model="defaultAustralia"
+              :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
+              label="All"
+              dense
+              return-object
+            ></v-select>
+
+          </div>
+        </template>
+        
         <template v-slot:header.Japan="{ header }">
           <div class="flex flex-col items-center">
             <div class="flex">
@@ -212,10 +214,11 @@
 
             <v-select
               id="sanctions-Japan"
-              @change="sanctionFiltersChange('Japan', $event)"
+              v-model="defaultJapan"
               :items="['All', '✅ Sanctioned', '❌ Not Sanctioned']"
               label="All"
               dense
+              return-object
             ></v-select>
 
           </div>
@@ -223,7 +226,6 @@
 
         <template v-slot:header.Type="{ header }">
           <span class="font-bold text-lg main-color">{{ header.text }}</span>
-          
         </template>
 
         <template v-slot:header.SanctionList="{ header }">
@@ -231,16 +233,25 @@
         </template>
         <!-- End of Header customization -->
 
+
+
         <!-- In-table customization -->
         <template v-slot:item.entity_individual="{ item }">
           <div class="text-lg col-entity" v-html="item.entity_individual"></div> 
         </template>
 
-        
-        <template v-slot:item.Australia="{ item }">
-          <div class="flex justify-center col-generic" v-html="item.Australia"></div> 
+        <template v-slot:item.US="{ item }">
+          <div class="flex justify-center col-generic" v-html="item.US"></div> 
         </template>
-        
+
+        <template v-slot:item.UK="{ item }">
+          <div class="flex justify-center col-generic" v-html="item.UK"></div> 
+        </template>
+
+        <template v-slot:item.EU="{ item }">
+          <div class="flex justify-center col-generic" v-html="item.EU"></div> 
+        </template>
+
         <template v-slot:item.Canada="{ item }">
           <div class="flex justify-center col-generic" v-html="item.Canada"></div> 
         </template>
@@ -248,19 +259,11 @@
         <template v-slot:item.Switzerland="{ item }">
           <div class="flex justify-center col-generic" v-html="item.Switzerland"></div> 
         </template>
-
-        <template v-slot:item.EU="{ item }">
-          <div class="flex justify-center col-generic" v-html="item.EU"></div> 
+        
+        <template v-slot:item.Australia="{ item }">
+          <div class="flex justify-center col-generic" v-html="item.Australia"></div> 
         </template>
-
-        <template v-slot:item.UK="{ item }">
-          <div class="flex justify-center col-generic" v-html="item.UK"></div> 
-        </template>
-
-        <template v-slot:item.US="{ item }">
-          <div class="flex justify-center col-generic" v-html="item.US"></div> 
-        </template>
-
+        
         <template v-slot:item.Japan="{ item }">
           <div class="flex justify-center col-generic" v-html="item.Japan"></div> 
         </template>
@@ -313,12 +316,12 @@ export default {
       default: () => [
         {
           entity_individual: '',
-          Australia: '',
-          Canada: '',
-          EU: '',
-          Switzerland: '',
-          UK: '',
           US: '',
+          UK: '',
+          EU: '',
+          Canada: '',
+          Switzerland: '',
+          Australia: '',
           Japan: '',
           Type: '',
           SanctionList:'',
@@ -347,89 +350,29 @@ export default {
     },
   },
   methods: {
-
-    displayHeadersNew() {
-
-      if (document.getElementById("sanctions-US") != undefined) {
-        const label = document.getElementById("sanctions-US");
-        label.labels[0].firstChild.data = "All";
-      }
-
-      if (document.getElementsByClassName("v-select__selection--comma") != undefined) {
-        const els = document.getElementsByClassName("v-select__selection--comma");
-
-        for (const el of els) {
-          if (el.innerText == "✅ Sanctioned" || el.innerText == "❌ Not Sanctioned") {
-            el.innerText = 'All';
-          }
-        }
-      }
-      
-      const filteredHeaders = [];
-      const selectedColumns = ["entity_individual","SanctionList","Type"];
-      this.activeColumns.forEach(e => selectedColumns.push(e));
-
-      this.headers.forEach(it => {
-        this.colDict[it.value] = ["check", "cross"];
-        if (selectedColumns.indexOf(it.value) != -1) {
-          filteredHeaders.push(it);
-        }
-      })
-
-      return filteredHeaders
-    },
-    // bug to fix: update  for each header the value to all when changed
     displayHeaders() {
-      /*
       const filteredHeaders = [];
       const selectedColumns = ["entity_individual","SanctionList","Type"];
       this.activeColumns.forEach(e => selectedColumns.push(e));
-
+      
+      // update headers
       this.headers.forEach(it => {
         if (selectedColumns.indexOf(it.value) != -1) {
           filteredHeaders.push(it);
         }
+        this.sanctionFiltersChange('All', it.value);
       })
 
-      console.log(filteredHeaders);
-
-      filteredHeaders.forEach(it => {
-
-        const val = document.getElementById(`sanctions-${it.value}`);
-        if ( val != null ) {
-          const newVal = document.getElementById(`sanctions-${it.value}`).parentNode.parentNode;
-          console.log(newVal,it.value, document.getElementById(`sanctions-${it.value}`).parentNode);
-
-
-          // it's an input
-          setTimeout(() => {
-            document.getElementById(`sanctions-${it.value}`).parentNode.parentNode.lastChild.value = 'All';
-          }, 3000)
-          
-
-          console.log(newVal,it.value, document.getElementById(`sanctions-${it.value}`).parentNode.parentNode.lastChild.value);
-        } 
+      // reset filters to update rows
+      this.defaultUS = 'All';
+      this.defaultUK = 'All';
+      this.defaultEU = 'All';
+      this.defaultCanada = 'All';
+      this.defaultSwitzerland = 'All';
+      this.defaultAustralia = 'All';
+      this.defaultJapan = 'All';
         
-        
-        const val = document.getElementById(`sanctions-${it.value}`).parentNode.parentNode;
-        console.log(val);
-
-        if (val.lastChild.value != null ) {
-
-          if (val.lastChild.value != '') {
-            //this.sanctionFiltersChange(it.value, val.lastChild.value);
-          } else {
-            //this.sanctionFiltersChange(it.value, 'All');
-            //document.getElementById(`sanctions-${it.value}`).parentNode.parentNode.lastChild.value = 'All';
-          }
-
-        }
-        
-
-      })
-      
-      return filteredHeaders;
-      */
+      return filteredHeaders
     },
     resetSearch() {
       this.search =  "";
@@ -474,8 +417,8 @@ export default {
         this.selectedVals = [ "Individual", "Entity", "Vessel", "Aircraft", "Any"];
       }
     },
-    sanctionFiltersChange(c, e) {      
-
+    sanctionFiltersChange(e, c) { 
+      
       const country = c;
       const val = e;
       
@@ -485,7 +428,7 @@ export default {
         this.colDict[country] = ["cross"];
       } else {
         this.colDict[country] = ["check", "cross"];
-      }      
+      }    
       
     },
     vuetifyUpdate() {
@@ -551,8 +494,29 @@ export default {
         this.animation();
       })
     });
-
-    
+  },
+  watch: {
+    defaultUS(n) {
+      this.sanctionFiltersChange(n, 'US');
+    },
+    defaultUK(n) {
+      this.sanctionFiltersChange(n, 'UK');
+    },
+    defaultEU(n) {
+      this.sanctionFiltersChange(n, 'EU');
+    },
+    defaultCanada(n) {
+      this.sanctionFiltersChange(n, 'Canada');
+    },
+    defaultSwitzerland(n) {
+      this.sanctionFiltersChange(n, 'Switzerland');
+    },
+    defaultAustralia(n) {
+      this.sanctionFiltersChange(n, 'Australia');
+    },
+    defaultJapan(n) {
+      this.sanctionFiltersChange(n, 'Japan');
+    },
   },
   data () {
     let search =  "";
@@ -719,13 +683,13 @@ export default {
       
     ];
     const colDict = {
-      Australia: ["check", "cross"],
       US: ["check", "cross"],
       UK: ["check", "cross"],
-      Japan: ["check", "cross"],
       EU: ["check", "cross"],
       Canada: ["check", "cross"],
       Switzerland: ["check", "cross"],
+      Australia: ["check", "cross"],
+      Japan: ["check", "cross"],
     };
 
     const countries = [
@@ -734,6 +698,15 @@ export default {
     const activeColumns = [
       'US', 'UK', 'EU', 'Canada', 'Switzerland', 'Australia', 'Japan'
     ];
+
+    const defaultUS = 'All';
+    const defaultUK = 'All';
+    const defaultEU = 'All';
+    const defaultCanada = 'All';
+    const defaultSwitzerland = 'All';
+    const defaultAustralia = 'All';
+    const defaultJapan = 'All';
+    
     return {
       info,
       headers,
@@ -743,7 +716,8 @@ export default {
       btns,
       colDict,
       countries,
-      activeColumns
+      activeColumns,
+      defaultUS, defaultUK, defaultEU, defaultCanada, defaultSwitzerland, defaultAustralia, defaultJapan
     }
   },
 }

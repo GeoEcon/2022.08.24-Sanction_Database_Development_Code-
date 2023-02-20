@@ -3,7 +3,7 @@
     <div class="grid grid-cols-1 gap-2 lg:grid-cols-5 border-none inline-flex self-center main-color mb-4 mt-6">
     <!--<div class="border-none inline-flex self-center main-color mb-4 mt-6">-->
       <!--<div class="mx-2 search-size border-2 border-prim rounded-md flex items-center">-->
-      <div id="search" class="sm:mx-2 mx-1 search-size border-2 col-span-2 border-prim rounded-md flex items-center">
+      <div id="search" class="sm:mx-2 mx-1 h-20 search-size border-2 col-span-2 border-prim rounded-md flex items-center">
         <div class="p-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#05a8e8" class="bi bi-search" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
@@ -23,7 +23,8 @@
           </svg>
         </div>
       </div>
-      <div class="self-center gap-1 grid md:grid-cols-5 grid-cols-2 col-span-2 lg:col-span-3 xl:col-span-2 flex justify-items-center">
+      
+      <div class="py-5 gap-1 grid md:grid-cols-5 grid-cols-2 col-span-2 lg:col-span-3 xl:col-span-2 flex justify-items-center">
       <!--<div class="flex ml-3">-->
         <div class="" v-for="btn in btns" :key="btn.id">
 
@@ -43,17 +44,19 @@
       </div>
 
 
-      <div id="selection-countries" class="flex items-center justify-center ">
-        <div :style="{'background-color': '#d7eefc', 'border': '1px solid #a0dbff'}" class="mx-4 rounded-md overflow-hidden overflow-clip rounded-md">
+      <div id="selection-countries" class="flex items-center justify-center flex-col">
+        
+        <div :style="{'background-color': 'transparent'}" class="mx-4 h-20 rounded-md border-2 border-prim overflow-hidden overflow-clip rounded-md">
           <div  
           class=""
           >
+            
             <v-select
               id="dropdown-countries"
               v-model="activeColumns"
               :items="countries"
               :menu-props="{ maxHeight: '400' }"
-              label="Select"
+              label="Select Countries"
               hint="Selected Countries"
               multiple
               return-object
@@ -62,9 +65,8 @@
           ></v-select>
           </div>
         </div>
+        <div class="italic">Selected countries</div>
       </div>
-
-
     </div>
 
     <div v-show="showLoader" class="flex justify-center">
@@ -869,10 +871,15 @@ th .v-input__slot {
   animation: spin 2s linear infinite;
 }
 
+.v-data-footer__pagination {
+  font-size: 16px !important;
+}
+
 .v-input.v-textarea>.v-input__control>.v-input__slot:before {
     border: none;
     outline:none;
 }
+
 
 .v-input__slot {
   padding: 5px;
@@ -885,6 +892,8 @@ th .v-input__slot {
   border-radius:10px !important;
   margin: 6px !important;
 }
+
+
 
 /*
 .mdi-menu-down {
@@ -934,15 +943,32 @@ th .v-input__slot {
 }
 
 .v-input__slot {
-  border:1px solid #a0dbff ;
+  border:1px solid #e3e3e3 ;
   border-radius: 5px !important;
-  background-color: #d7eefc ;
+  background-color: #e6f1d9 ;
 }
 
 .v-input__slot::after {
   border:1px solid #bbb;
   border-radius: 5px !important;
   background-color: #d7eefc ;
+}
+
+/* for country selection */ 
+#selection-countries .v-input__slot::after {
+  background-color: transparent;
+}
+
+#selection-countries .v-input__slot {
+  background-color: transparent;
+}
+
+#selection-countries div div .v-input .v-input__control .v-input__slot .v-select__slot .v-select__selections {
+  color: #05a8e8;
+}
+
+#selection-countries div div .v-input .v-input__control .v-input__slot .v-select__slot .v-input__append-inner .v-input__icon .v-icon {
+  color: #05a8e8;
 }
 
 #search .v-input__slot, #selection-countries .v-input__slot{

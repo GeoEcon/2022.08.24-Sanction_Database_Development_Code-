@@ -62,6 +62,8 @@
               return-object
               dense
               single-line
+              item-color="#05a8e8"
+              color="#05a8e8"
           ></v-select>
           </div>
         </div>
@@ -456,6 +458,8 @@ export default {
       for (const c of searchOutline) {
         c.style.color = "#05a8e8 !important";
       }
+
+
       const searchOutlineGlobal = document.getElementsByClassName('.v-application');
       for (const c of searchOutlineGlobal) {
         c.style.color = "#05a8e8 !important";
@@ -466,6 +470,7 @@ export default {
       for (const c of detailsToRemove) {
         c.style.display = "none";
       }
+
 
       // header-country color
       // v-label
@@ -871,6 +876,10 @@ th .v-input__slot {
   animation: spin 2s linear infinite;
 }
 
+
+
+
+
 .v-data-footer__pagination {
   font-size: 16px !important;
 }
@@ -986,5 +995,37 @@ th .v-input__slot {
 .theme--light.v-text-field > .v-input__control > .v-input__slot::after {
   border:transparent;
 }
+
+/* select countries */
+
+/*
+
+.v-sheet div, .v-sheet div div::before {
+  color: #05a8e8 !important;
+}
+
+.v-application .primary--text {
+  color: #05a8e8 !important;
+  caret-color: #05a8e8 !important;
+}
+
+.v-list-item--link::before, .v-list-item--link {
+  background-color: #ffffff;
+}
+
+div[aria-selected="true"], div[aria-hidden="true"]{
+  background-color: #ffffff;
+}
+
+.mdi-checkbox-marked {
+  color: #05a8e8 !important;
+}
+
+*/
+
+.v-list-item--active {
+  color: #05a8e8 !important;
+}
+
 
 </style>
